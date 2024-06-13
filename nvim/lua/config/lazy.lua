@@ -4,7 +4,7 @@ local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
   -- bootstrap lazy.nvim
   -- stylua: ignore
-  vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=main", lazypath })
+  vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/folke/lazy.nvim.git", "--branch=stable", lazypath })
 end
 vim.opt.rtp:prepend(lazypath)
 
@@ -12,6 +12,9 @@ require("lazy").setup({
 	spec = {
 		-- Import built-in LazyVim specs.
 		{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
+		-- Override versions for lazy.nvim and LazyVim.
+		{ "folke/lazy.nvim", version = false },
+		{ "LazyVim/LazyVim", version = false },
 		-- Import our own plugin specs.
 		{ import = "plugins" },
 	},
