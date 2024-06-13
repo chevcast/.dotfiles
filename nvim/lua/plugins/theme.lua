@@ -6,7 +6,7 @@ return {
 		priority = 10000,
 		name = "catppuccin",
 		opts = {
-			flavour = "mocha",
+			flavour = "frappe",
 			transparent_background = false,
 			color_overrides = {
 				mocha = {
@@ -19,7 +19,6 @@ return {
 					surface2 = "#705867",
 					surface1 = "#5A4551",
 					surface0 = "#44313B",
-
 					base = "#352939",
 					mantle = "#211924",
 					crust = "#1a1016",
@@ -42,15 +41,7 @@ return {
 	-- { "gremble0/yellowbeans.nvim" },
 
 	-- { "Everblush/nvim", name = "everblush" },
-	{
-		"ellisonleao/gruvbox.nvim",
-		lazy = false,
-		priority = 10000,
-		opts = {
-			contrast = "hard",
-			transparent_mode = false,
-		},
-	},
+	-- { "ellisonleao/gruvbox.nvim", lazy = false, priority = 10000, opts = { contrast = "hard", transparent_mode = false } },
 
 	-- Configure LazyVim to load gruvbox.
 	{ "LazyVim/LazyVim", opts = { colorscheme = "catppuccin" } },

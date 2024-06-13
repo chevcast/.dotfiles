@@ -8,7 +8,7 @@ local wallpaper = nil
 -- 	brightness = 0.03,
 -- }
 -- local color_scheme = "Catppuccin Macchiato"
-local color_scheme = "Catppuccin Pink Mocha"
+local color_scheme = "Catppuccin Frappe"
 -- local color_scheme = "GruvboxDarkHard"
 local font_size = 14
 local fonts = {
@@ -25,6 +25,7 @@ local fonts = {
 ------------------------
 
 local catppuccin_pink_mocha = wezterm.get_builtin_color_schemes()["Catppuccin Mocha"]
+local catppuccin_frappe = wezterm.get_builtin_color_schemes()["Catppuccin Frappe"]
 local config = wezterm.config_builder()
 config:set_strict_mode(true)
 
@@ -36,7 +37,7 @@ wezterm.on("update-right-status", function(window)
 	end
 end)
 
-wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
+wezterm.on("format-tab-title", function(tab)
 	local pane_title = tab.active_pane.title
 	local user_title = tab.active_pane.user_vars.panetitle
 
@@ -46,7 +47,7 @@ wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_wid
 
 	if tab.is_active then
 		return {
-			{ Background = { Color = "pink" } },
+			{ Background = { Color = catppuccin_frappe.brights[3] } },
 			{ Foreground = { Color = "black" } },
 			{ Text = " " .. pane_title .. " " },
 		}
