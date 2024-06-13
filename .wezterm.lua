@@ -7,8 +7,8 @@ local wallpaper = nil
 -- 	file = "wezterm-bg4.png",
 -- 	brightness = 0.03,
 -- }
--- local color_scheme = "Catppuccin Macchiato"
-local color_scheme = "Catppuccin Frappe"
+local color_scheme = "Catppuccin Pink Mocha"
+-- local color_scheme = "Catppuccin Frappe"
 -- local color_scheme = "GruvboxDarkHard"
 local font_size = 14
 local fonts = {
