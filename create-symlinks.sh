@@ -29,6 +29,7 @@ echo "...done! Backups were saved to $HOME/.backup_dotfiles/"
 # Create symlinks.
 echo "Creating symlinks to .dotfiles config files..."
 ln -sf "$DOTFILES_DIR/nvim" "$HOME/.config/nvim/"
+ln -sf "$DOTFILES_DIR/wezterm" "$HOME/.config/wezterm/"
 ln -sf "$DOTFILES_DIR/gh-copilot/config.yml" "$HOME/.config/gh-copilot/config.yml"
 ln -sf "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
 ln -sf "$DOTFILES_DIR/.p10k.zsh" "$HOME/.p10k.zsh"
