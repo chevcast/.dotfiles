@@ -26,28 +26,11 @@ return {
 			},
 		},
 	},
-	-- { "Scysta/pink-panic.nvim", dependencies = { "rktjmp/lush.nvim" } },
-	-- { "lalitmee/cobalt2.nvim", dependencies = { "tjdevries/colorbuddy.nvim" }, init = function() require("colorbuddy").colorscheme("cobalt2") end },
-	-- { "folke/tokyonight.nvim", opts = { style = "moon" } },
-	-- { "yorik1984/newpaper.nvim", opts = { style = "dark" } },
-	-- { "water-sucks/darkrose.nvim" },
-	-- { "xero/miasma.nvim" },
-	-- { "luisiacc/the-matrix.nvim" },
-	-- { "iruzo/matrix-nvim" },
-	-- { "fcpg/vim-farout" },
-	-- { "nikolvs/vim-sunbather" },
-	-- { "Alexis12119/nightly.nvim" },
-	-- { "muchzill4/doubletrouble" },
-	-- { "gremble0/yellowbeans.nvim" },
-
-	-- { "Everblush/nvim", name = "everblush" },
 	{
 		"ellisonleao/gruvbox.nvim",
 		lazy = false,
 		priority = 10000,
 		opts = { contrast = "hard", transparent_mode = false },
 	},
-
-	-- Configure LazyVim to load gruvbox.
 	{ "LazyVim/LazyVim", opts = { colorscheme = "catppuccin" } },
 }
