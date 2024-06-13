@@ -1,10 +1,17 @@
 # CatDadCode .dotfiles
 
-This is my personal development environment. You are welcome to use it or borrow from it. I'm doing my best to keep all of it as portable as possible, but I make no guarantees. If you find any issues please feel free to submit a PR or open a Github issue.
+This is my personal development environment. You are welcome to use it or borrow
+from it. I'm doing my best to keep all of it as portable as possible, but I make
+no guarantees. If you find any issues please feel free to submit a PR or open a
+Github issue.
 
 ## Try it out with Docker
 
-My full development environment is about 2.22gb in size. The image contains almost everything I'd ever need for nearly any app I'm working on. Most folks wanting to try it out are likely just looking for my Neovim setup so I have created a slimmed down Alpine image that is 300.52mb in size. It contains only what is needed to run my full Neovim setup and nothing extra.
+My full development environment is about 2.22gb in size. The image contains almost
+everything I'd ever need for nearly any app I'm working on. Most folks wanting to
+try it out are likely just looking for my Neovim setup. So, I have created a
+slimmed down Alpine image that is 300.52mb in size. It contains only what is needed
+to run my full Neovim setup and nothing extra.
 
 ### My full development environment image (2.22gb)
 
@@ -14,7 +21,8 @@ My full development environment is about 2.22gb in size. The image contains almo
 
 #### `docker run -it catdadcode/nvim`
 
-> You can even edit your own files with my Neovim setup by mounting a volume to the container and specifying the path for Neovim to open.
+> You can even edit your own files with my Neovim setup by mounting a volume to the
+> container and specifying the path for Neovim to open.
 >
 > `docker run -itv /path/to/your/files:/yourfiles catdadcode/nvim /yourfiles`
 
@@ -28,7 +36,9 @@ My full development environment is about 2.22gb in size. The image contains almo
 
 2. Run the install script.
 
-   > Note that the install script does NOT automatically back up any existing configuration files. Run at your own risk. If you want to try out the setup before installing then see above for how to run the setup in a Docker container.
+   > Note that the install script does NOT automatically back up any existing
+   > configuration files. Run at your own risk. If you want to try out the setup
+   > before installing then see above for how to run the setup in a Docker container.
 
    ```sh
    cd .dotfiles && install.sh
@@ -59,7 +69,6 @@ My full development environment is about 2.22gb in size. The image contains almo
 - [ripgrep](https://github.com/BurntSushi/ripgrep)
 - [Volta](https://volta.sh/)
 - [Wezterm](https://wezfurlong.org/wezterm/)
-- [Wezterm terminfo](https://raw.githubusercontent.com/wez/wezterm/main/termwiz/data/wezterm.terminfo)
 - [ZSH](https://www.zsh.org/)
 - [Zsh Vi Mode](https://github.com/jeffreytse/zsh-vi-mode#readme)
 
@@ -68,7 +77,8 @@ My full development environment is about 2.22gb in size. The image contains almo
 - [folke/lazy.nvim](https://github.com/folke/lazy.nvim)
 - [LazyVim/starter](https://github.com/LazyVim/starter)
 
-### Neovim Plugins (108)
+### Neovim Plugins (107)
+
 - [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim.git)
 - [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim.git)
 - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim.git)
@@ -88,23 +98,24 @@ My full development environment is about 2.22gb in size. The image contains almo
 - [crates.nvim](https://github.com/Saecki/crates.nvim.git)
 - [dashboard-nvim](https://github.com/nvimdev/dashboard-nvim.git)
 - [dial.nvim](https://github.com/monaqa/dial.nvim.git)
-- [dressing.nvim](https://github.com/stevearc/dressing.nvim.git)
 - [edgy.nvim](https://github.com/folke/edgy.nvim.git)
 - [firenvim](https://github.com/glacambre/firenvim.git)
 - [flit.nvim](https://github.com/ggandor/flit.nvim.git)
 - [friendly-snippets](https://github.com/rafamadriz/friendly-snippets.git)
+- [fzf-lua](https://github.com/ibhagwan/fzf-lua.git)
 - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim.git)
 - [glow.nvim](https://github.com/ellisonleao/glow.nvim.git)
-- [gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim.git)
 - [guess-indent.nvim](https://github.com/NMAC427/guess-indent.nvim.git)
 - [headlines.nvim](https://github.com/lukas-reineke/headlines.nvim.git)
 - [inc-rename.nvim](https://github.com/smjonas/inc-rename.nvim.git)
 - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim.git)
+- [kube-utils-nvim](https://github.com/h4ckm1n-dev/kube-utils-nvim.git)
 - [lazydev.nvim](https://github.com/folke/lazydev.nvim.git)
 - [leap.nvim](https://github.com/ggandor/leap.nvim.git)
 - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim.git)
 - [luvit-meta](https://github.com/Bilal2453/luvit-meta.git)
 - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim.git)
+- [markdown.nvim](https://github.com/MeanderingProgrammer/markdown.nvim.git)
 - [mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim.git)
 - [mason-nvim-dap.nvim](https://github.com/jay-babu/mason-nvim-dap.nvim.git)
 - [mason.nvim](https://github.com/williamboman/mason.nvim.git)
@@ -130,9 +141,8 @@ My full development environment is about 2.22gb in size. The image contains almo
 - [nvim-dap](https://github.com/mfussenegger/nvim-dap.git)
 - [nvim-dap-go](https://github.com/leoluz/nvim-dap-go.git)
 - [nvim-dap-python](https://github.com/mfussenegger/nvim-dap-python.git)
-- [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui.git)
+- [nvim-dap-ui](https://github.com/hhcarriga/nvim-dap-ui.git)
 - [nvim-dap-virtual-text](https://github.com/theHamsta/nvim-dap-virtual-text.git)
-- [nvim-ghost.nvim](https://github.com/subnut/nvim-ghost.nvim.git)
 - [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls.git)
 - [nvim-lint](https://github.com/mfussenegger/nvim-lint.git)
 - [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig.git)
@@ -147,17 +157,16 @@ My full development environment is about 2.22gb in size. The image contains almo
 - [nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons.git)
 - [octo.nvim](https://github.com/pwntester/octo.nvim.git)
 - [oil.nvim](https://github.com/stevearc/oil.nvim.git)
-- [one-small-step-for-vimkind](https://github.com/jbyuki/one-small-step-for-vimkind.git)
+- [one-small-step-for-vimkind](https://github.com/jbyukhone-small-step-for-vimkind.git)
 - [persistence.nvim](https://github.com/folke/persistence.nvim.git)
+- [playtime.nvim](https://github.com/rktjmp/playtime.nvim.git)
 - [plenary.nvim](https://github.com/nvim-lua/plenary.nvim.git)
-- [precognition.nvim](https://github.com/tris203/precognition.nvim.git)
 - [project.nvim](https://github.com/ahmedkhalf/project.nvim.git)
 - [rainbow-delimiters.nvim](https://github.com/HiPhish/rainbow-delimiters.nvim.git)
 - [rainbow_csv](https://github.com/mechatroner/rainbow_csv.git)
 - [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim.git)
 - [rustaceanvim](https://github.com/mrcjkb/rustaceanvim.git)
 - [tailwindcss-colorizer-cmp.nvim](https://github.com/roobert/tailwindcss-colorizer-cmp.nvim.git)
-- [telescope-fzf-native.nvim](https://github.com/nvim-telescope/telescope-fzf-native.nvim.git)
 - [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim.git)
 - [todo-comments.nvim](https://github.com/folke/todo-comments.nvim.git)
 - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim.git)
