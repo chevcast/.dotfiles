@@ -10,22 +10,8 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	spec = {
-		{ "LazyVim/LazyVim", branch = "main", import = "lazyvim.plugins", version = false },
-		{ "folke/lazy.nvim", branch = "main", version = false },
-		{
-			"LazyVim/LazyVim",
-			branch = "main",
-			cond = true,
-			lazy = false,
-			opts = {
-				news = {
-					lazyvim = true,
-					neovim = true,
-				},
-			},
-			priority = 10000,
-			version = false,
-		},
+		-- Import built-in LazyVim specs.
+		{ "LazyVim/LazyVim", import = "lazyvim.plugins" },
 		-- Import our own plugin specs.
 		{ import = "plugins" },
 	},
