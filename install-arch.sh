@@ -4,18 +4,6 @@
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export DOTFILES_DIR
 
-# If WSL then create a Windows symbolic link in Windows user directory pointing to .wezterm.lua.
-if command -v powershell.exe >/dev/null; then
-	echo "Creating Windows symlink to wezterm config file..."
-	WEZTERM_CONFIG_PATH=$(echo "//wsl.localhost/Arch${DOTFILES_DIR}/.wezterm.lua" | sed 's/\//\\/g')
-	powershell.exe -Command "New-Item -ItemType SymbolicLink -Path \$env:USERPROFILE\\.wezterm.lua -Target ${WEZTERM_CONFIG_PATH}"
-	echo "...done!"
-	echo "Creating Windows symlink to nvim config directory..."
-	NVIM_CONFIG_PATH=$(echo "//wsl.localhost/Arch${DOTFILES_DIR}/nvim" | sed 's/\//\\/g')
-	powershell.exe -Command "New-Item -ItemType SymbolicLink -Path \$env:USERPROFILE\\AppData\\Local\\nvim -Target ${NVIM_CONFIG_PATH}"
-	echo "...done!"
-fi
-
 # Install terminfo for Wezterm.
 echo "Creating terminfo for Wezterm..."
 tempfile=$(mktemp) &&
