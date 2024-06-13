@@ -16,7 +16,7 @@ return {
 				localSettings = {
 					[".*"] = {
 						cmdline = "neovim",
-						takeover = "always",
+						takeover = "never",
 					},
 				},
 			}
