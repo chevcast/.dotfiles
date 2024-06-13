@@ -1,4 +1,6 @@
-return {
+local config = require("config")
+
+config.color_schemes["Catppuccin Pink Mocha"] = {
 	ansi = {
 		"#45475a",
 		"#f38ba8",
