@@ -21,7 +21,7 @@ vim.opt.listchars = {
 	precedes = "«",
 }
 
-vim.opt.guifont = "ComicShannsMono Nerd Font:h18"
+vim.opt.guifont = "ComicShannsMono Nerd Font:h12"
 
 if vim.fn.has("wsl") == 1 then
 	vim.g.clipboard = {
