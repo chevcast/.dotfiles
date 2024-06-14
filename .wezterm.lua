@@ -8,12 +8,12 @@ local config = require("config")
 
 config.color_scheme = "Catppuccin Pink Mocha"
 
-config.font_size = 12
+config.font_size = 20
 config.font = wezterm.font_with_fallback({
 	-- { family = "BigBlueTermPlus Nerd Font", weight = "Regular" },
 	-- { family = "Cartograph CF", weight = "Bold" },
-	{ family = "ComicShannsMono Nerd Font", weight = "Bold" },
-	-- { family = "FiraCode Nerd Font", weight = "Regular" },
+	{ family = "ComicShannsMono Nerd Font", weight = "Regular" },
+	-- { family = "FiraCode Nerd Font", weight = "Bold" },
 	-- { family = "ProggyClean Nerd Font", weight = "Regular" },
 	-- { family = "ShureTechMono Nerd Font", weight = "Regular" },
 	-- { family = "Terminess Nerd Font", weight = "Bold" },
@@ -41,7 +41,7 @@ config.use_fancy_tab_bar = false
 config.webgpu_power_preference = "HighPerformance"
 config.window_close_confirmation = "NeverPrompt"
 -- config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
-config.window_padding = { left = 15, right = 15, top = 15, bottom = 15 }
+config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 
 if wezterm.target_triple:match("windows") then
 	config.default_domain = "WSL:Arch"
