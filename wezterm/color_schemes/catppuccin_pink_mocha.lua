@@ -1,6 +1,6 @@
 local config = require("config")
 
-local background = "RGBA(26, 16, 22, 0)"
+local background = "RGBA(26, 16, 22, 1)"
 
 config.color_schemes["Catppuccin Pink Mocha"] = {
 	ansi = {

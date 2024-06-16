@@ -19,31 +19,31 @@ wezterm.on("format-tab-title", function(tab)
 	local colors = config.color_schemes[config.color_scheme].tab_bar
 	if not tab.is_active then
 		return {
-			{ Background = { Color = colors.active_tab.fg_color } },
-			{ Foreground = { Color = colors.inactive_tab.bg_color } },
+			-- { Background = { Color = colors.active_tab.fg_color } },
+			-- { Foreground = { Color = colors.inactive_tab.bg_color } },
 			-- { Text = " " },
-			{ Text = section_separators.right },
+			-- { Text = section_separators.right },
 			{ Background = { Color = colors.inactive_tab.bg_color } },
 			{ Foreground = { Color = colors.inactive_tab.fg_color } },
-			{ Text = pane_title },
-			{ Background = { Color = colors.active_tab.fg_color } },
-			{ Foreground = { Color = colors.inactive_tab.bg_color } },
-			{ Text = section_separators.left },
-			{ Text = " " },
+			{ Text = " " .. pane_title .. " " },
+			-- { Background = { Color = colors.active_tab.fg_color } },
+			-- { Foreground = { Color = colors.inactive_tab.bg_color } },
+			-- { Text = section_separators.left },
+			-- { Text = " " },
 		}
 	end
 	return {
-		{ Attribute = { Intensity = "Bold" } },
-		{ Background = { Color = colors.active_tab.fg_color } },
-		{ Foreground = { Color = colors.active_tab.bg_color } },
+		-- { Attribute = { Intensity = "Bold" } },
+		-- { Background = { Color = colors.active_tab.fg_color } },
+		-- { Foreground = { Color = colors.active_tab.bg_color } },
 		-- { Text = " " },
-		{ Text = section_separators.right },
+		-- { Text = section_separators.right },
 		{ Background = { Color = colors.active_tab.bg_color } },
 		{ Foreground = { Color = colors.active_tab.fg_color } },
-		{ Text = pane_title },
-		{ Background = { Color = colors.active_tab.fg_color } },
-		{ Foreground = { Color = colors.active_tab.bg_color } },
-		{ Text = section_separators.left },
-		{ Text = " " },
+		{ Text = " " .. pane_title .. " " },
+		-- { Background = { Color = colors.active_tab.fg_color } },
+		-- { Foreground = { Color = colors.active_tab.bg_color } },
+		-- { Text = section_separators.left },
+		-- { Text = " " },
 	}
 end)
