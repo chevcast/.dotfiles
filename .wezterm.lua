@@ -8,7 +8,7 @@ local config = require("config")
 
 config.color_scheme = "Catppuccin Pink Mocha"
 
-config.font_size = 20
+config.font_size = 14
 config.font = wezterm.font_with_fallback({
 	-- { family = "BigBlueTermPlus Nerd Font", weight = "Regular" },
 	-- { family = "Cartograph CF", weight = "Bold" },
@@ -26,7 +26,7 @@ config.default_cursor_style = "BlinkingBlock"
 config.enable_scroll_bar = false
 config.enable_wayland = true
 config.exit_behavior_messaging = "Verbose"
-config.front_end = "WebGpu"
+config.front_end = "OpenGL" -- ["OpenGL", "Software", "WebGpu"]
 config.hide_mouse_cursor_when_typing = true
 config.hide_tab_bar_if_only_one_tab = false
 config.macos_window_background_blur = 50
@@ -39,8 +39,10 @@ config.tab_bar_at_bottom = true
 config.term = "wezterm"
 config.use_fancy_tab_bar = false
 config.webgpu_power_preference = "HighPerformance"
+config.webgpu_preferred_adapter = wezterm.gui.enumerate_gpus()[2]
+config.window_background_opacity = 0.75
 config.window_close_confirmation = "NeverPrompt"
--- config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 
 if wezterm.target_triple:match("windows") then

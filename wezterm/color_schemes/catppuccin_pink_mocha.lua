@@ -1,5 +1,7 @@
 local config = require("config")
 
+local background = "RGBA(26, 16, 22, 0)"
+
 config.color_schemes["Catppuccin Pink Mocha"] = {
 	ansi = {
 		"#45475a",
@@ -38,13 +40,13 @@ config.color_schemes["Catppuccin Pink Mocha"] = {
 	tab_bar = {
 		active_tab = {
 			bg_color = "#F4CDE9",
-			fg_color = "#1a1016",
+			fg_color = background,
 			intensity = "Normal",
 			italic = false,
 			strikethrough = false,
 			underline = "None",
 		},
-		background = "#1a1016",
+		background = background,
 		inactive_tab = {
 			bg_color = "#5A4551",
 			fg_color = "#B293A8",
@@ -63,7 +65,7 @@ config.color_schemes["Catppuccin Pink Mocha"] = {
 			underline = "None",
 		},
 		new_tab = {
-			bg_color = "#1a1016",
+			bg_color = background,
 			fg_color = "#F4CDE9",
 			intensity = "Normal",
 			italic = false,
