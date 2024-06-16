@@ -37,10 +37,10 @@ config.scrollback_lines = 100000
 config.show_tab_index_in_tab_bar = true
 config.tab_bar_at_bottom = false
 config.term = "wezterm"
-config.use_fancy_tab_bar = false
+config.use_fancy_tab_bar = true
 config.webgpu_power_preference = "HighPerformance"
 config.webgpu_preferred_adapter = wezterm.gui.enumerate_gpus()[2]
-config.window_background_opacity = 0.9
+config.window_background_opacity = 0.75
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
@@ -48,7 +48,7 @@ config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
 if wezterm.target_triple:match("windows") then
 	config.default_domain = "WSL:Arch"
 	config.default_cwd = "/home/catdad"
-	config.win32_system_backdrop = "Disable" -- ["Auto", "Acrylic", "Mica", "Tabbed" "Disable"]
+	config.win32_system_backdrop = "Acrylic" -- ["Auto", "Acrylic", "Mica", "Tabbed" "Disable"]
 end
 
 return config
