@@ -1,21 +1,13 @@
 local function pickTheme()
 	-- Check if we are in a work directory.
 	local filepath = vim.fn.getcwd() or ""
-	if string.match(filepath, "pdk") then
+	if string.match(filepath, "work") then
 		return {
 			symbols = {
-				"🔒",
-				"🔑",
-				"☁️",
-				"🚪",
-				"📱",
-				"PDK",
+				-- work emojis
 			},
 			colors = {
-				"#fcb040",
-				"#348bf7",
-				"#ffffff",
-				"#858e98",
+				-- company colors
 			},
 		}
 	else

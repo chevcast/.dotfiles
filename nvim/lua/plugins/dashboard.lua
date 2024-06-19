@@ -9,14 +9,9 @@ return {
 		local function pickLogo()
 			local filepath = vim.fn.getcwd() or ""
 			local hostname = vim.fn.hostname() or ""
-			if string.match(filepath .. hostname, "pdk") then
+			if string.match(filepath .. hostname, "work") then
 				return [[
-██████╗   ██████╗   ██╗  ██╗
-██╔══██╗  ██╔══██╗  ██║ ██╔╝
-██████╔╝  ██║  ██║  █████╔╝ 
-██╔═══╝   ██║  ██║  ██╔═██╗ 
-██║       ██████╔╝  ██║  ██╗
-╚═╝       ╚═════╝   ╚═╝  ╚═╝
+				work art here
 				]]
 			else
 				return [[
