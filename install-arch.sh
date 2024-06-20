@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Get the directory of the script.
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export DOTFILES_DIR
-
 # Install terminfo for Wezterm.
 echo "Creating terminfo for Wezterm..."
 tempfile=$(mktemp) &&
@@ -12,7 +8,7 @@ tempfile=$(mktemp) &&
 	rm "$tempfile"
 echo "...done!"
 
-bash <"$DOTFILES_DIR/create-symlinks.sh"
+bash <"create-symlinks.sh"
 
 # Install pacman key.
 sudo pacman-key --init

@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Get absolute path of current script.
-DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export DOTFILES_DIR
-
 # Install Xcode Command Line Tools.
 echo "Installing XCode Command Line Tools..."
 xcode-select --install
@@ -17,7 +13,7 @@ tempfile=$(mktemp) &&
 	rm "$tempfile"
 echo "...done!"
 
-bash <"$DOTFILES_DIR/create-symlinks.sh"
+bash <"create-symlinks.sh"
 
 # Install Homebrew.
 echo "Installing Homebrew..."
