@@ -1,9 +1,9 @@
 return {
-	-- {
-	-- 	"subnut/nvim-ghost.nvim",
-	-- 	enabled = not vim.g.started_by_firenvim,
-	-- 	event = "VeryLazy",
-	-- },
+	{
+		"subnut/nvim-ghost.nvim",
+		enabled = not vim.g.started_by_firenvim,
+		lazy = false,
+	},
 	{
 		"glacambre/firenvim",
 		lazy = not vim.g.started_by_firenvim,
