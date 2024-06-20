@@ -1,13 +1,11 @@
 local wezterm = require("wezterm")
 local config = require("config")
 
+local builtin_color_schemes = wezterm.get_builtin_color_schemes()
+
 local section_separators = {
 	left = "",
 	right = "",
-	-- left = utf8.char(tonumber("25A9", 16)),
-	-- right = utf8.char(tonumber("25A9", 16)),
-	-- left = wezterm.nerdfonts.pl_left_hard_divider,
-	-- right = wezterm.nerdfonts.pl_right_hard_divider,
 }
 
 wezterm.on("format-tab-title", function(tab)
@@ -16,7 +14,7 @@ wezterm.on("format-tab-title", function(tab)
 	if user_title ~= nil and #user_title > 0 then
 		pane_title = user_title
 	end
-	local colors = config.color_schemes[config.color_scheme].tab_bar
+	local colors = (config.color_schemes[config.color_scheme] or builtin_color_schemes[config.color_scheme]).tab_bar
 	if not tab.is_active then
 		return {
 			-- { Background = { Color = colors.active_tab.fg_color } },
