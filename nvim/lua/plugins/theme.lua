@@ -30,7 +30,7 @@ return {
 		"ellisonleao/gruvbox.nvim",
 		lazy = false,
 		priority = 10000,
-		opts = { contrast = "hard", transparent_mode = false },
+		opts = { contrast = "hard", transparent_mode = true },
 	},
 	{ "LazyVim/LazyVim", opts = { colorscheme = "catppuccin" } },
 }

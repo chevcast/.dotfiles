@@ -7,6 +7,7 @@ local wezterm = require("wezterm")
 local config = require("config")
 
 config.color_scheme = "Catppuccin Pink Mocha"
+-- config.color_scheme = "Gruvbox Dark Hard"
 
 config.font_size = 14
 config.font = wezterm.font_with_fallback({
@@ -40,7 +41,7 @@ config.term = "wezterm"
 config.use_fancy_tab_bar = true
 config.webgpu_power_preference = "HighPerformance"
 config.webgpu_preferred_adapter = wezterm.gui.enumerate_gpus()[2]
-config.window_background_opacity = 0.90
+config.window_background_opacity = 0.9
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
 config.window_padding = { left = 0, right = 0, top = 0, bottom = 0 }
