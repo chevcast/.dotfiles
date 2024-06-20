@@ -1,5 +1,6 @@
 return {
 	"nvimdev/dashboard-nvim",
+	optional = true,
 	opts = function(_, opts)
 		-- Find the color of strings in the current theme and use it as dashboard header color.
 		local string_hl = vim.api.nvim_get_hl(0, { name = "String", link = false })

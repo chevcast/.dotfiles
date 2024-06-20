@@ -1,5 +1,6 @@
 return {
 	"echasnovski/mini.files",
+	optional = true,
 	keys = function()
 		return {
 			{

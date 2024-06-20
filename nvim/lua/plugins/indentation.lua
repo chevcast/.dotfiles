@@ -9,6 +9,7 @@ return {
 	-- Configure indent-blankline to coordinate with rainbow-delimiters to match indent colors with bracket colors.
 	{
 		"lukas-reineke/indent-blankline.nvim",
+		optional = true,
 		dependencies = { "HiPhish/rainbow-delimiters.nvim" },
 		enabled = true,
 		config = function(_, opts)

@@ -1,5 +1,6 @@
 return {
 	"CopilotC-Nvim/CopilotChat.nvim",
+	optional = true,
 	opts = function(_, opts)
 		local user = vim.env.USER or "CatDad"
 		opts.window.title = "🐝 Bumblebee"

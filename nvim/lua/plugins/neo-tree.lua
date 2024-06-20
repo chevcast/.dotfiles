@@ -1,6 +1,7 @@
 return {
 	{
 		"nvim-neo-tree/neo-tree.nvim",
+		optional = true,
 		keys = {
 			-- Remove keymaps for git and buffer explorers.
 			{ "<leader>ge", false },
@@ -18,6 +19,7 @@ return {
 	},
 	{
 		"folke/edgy.nvim",
+		optional = true,
 		opts = function(_, opts)
 			-- Remove neo-tree buffers window.
 			table.remove(opts.left, 4)

@@ -1,5 +1,6 @@
 return {
 	"folke/edgy.nvim",
+	optional = true,
 	opts = function(_, opts)
 		if opts.animate == nil then
 			opts.animate = {}

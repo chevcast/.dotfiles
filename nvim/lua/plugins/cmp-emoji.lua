@@ -1,5 +1,6 @@
 return {
 	"hrsh7th/nvim-cmp",
+	optional = true,
 	dependencies = { "hrsh7th/cmp-emoji" },
 	event = "VeryLazy",
 	opts = function(_, opts)
