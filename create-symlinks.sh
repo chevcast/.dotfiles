@@ -54,17 +54,4 @@ if command -v powershell.exe &>/dev/null; then
 	NVIM_CONFIG_PATH=$(echo "//wsl.localhost/Arch${DOTFILES_DIR}/nvim" | sed 's/\//\\/g')
 	powershell.exe -Command "New-Item -ItemType SymbolicLink -Path \$env:USERPROFILE\\AppData\\Local\\nvim -Target ${NVIM_CONFIG_PATH}"
 	echo "...done!"
-	echo "Creating Windows symlink to whkdrc config..."
-	mkdir -p "/mnt/c/Users/Alex/.config"
-	WHKDRC_CONFIG_PATH=$(echo "//wsl.localhost/Arch${DOTFILES_DIR}/whkdrc" | sed 's/\//\\/g')
-	powershell.exe -Command "New-Item -ItemType SymbolicLink -Path \$env:USERPROFILE\\.config\\whkdrc -Target ${WHKDRC_CONFIG_PATH}"
-	echo "...done!"
-	echo "Creating Windows symlink to komorebi config..."
-	KOMOREBI_CONFIG_PATH=$(echo "//wsl.localhost/Arch${DOTFILES_DIR}/komorebi.json" | sed 's/\//\\/g')
-	powershell.exe -Command "New-Item -ItemType SymbolicLink -Path \$env:USERPROFILE\\komorebi.json -Target ${KOMOREBI_CONFIG_PATH}"
-	echo "...done!"
-	echo "Creating Windows symlink to applications.yaml..."
-	APPLICATIONS_CONFIG_PATH=$(echo "//wsl.localhost/Arch${DOTFILES_DIR}/applications.yaml" | sed 's/\//\\/g')
-	powershell.exe -Command "New-Item -ItemType SymbolicLink -Path \$env:USERPROFILE\\applications.yaml -Target ${APPLICATIONS_CONFIG_PATH}"
-	echo "...done!"
 fi
