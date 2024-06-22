@@ -50,7 +50,7 @@ config.webgpu_preferred_adapter = wezterm.gui.enumerate_gpus()[2]
 config.window_background_opacity = 0.9
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "RESIZE" -- "INTEGRATED_BUTTONS|RESIZE"
-config.window_padding = { left = 25, right = 25, top = 25, bottom = 25 }
+config.window_padding = { left = 10, right = 10, top = 25, bottom = 10 }
 
 if wezterm.target_triple:match("windows") then
 	config.default_domain = "WSL:Arch"
