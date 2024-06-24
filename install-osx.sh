@@ -42,6 +42,7 @@ brew install \
 	direnv \
 	dotnet \
 	eza \
+	fastfetch \
 	fd \
 	fzf \
 	gcc \

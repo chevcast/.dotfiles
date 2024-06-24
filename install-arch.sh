@@ -34,6 +34,7 @@ yay -Syuv --noconfirm --needed --disable-download-timeout \
 	direnv \
 	dotnet-sdk \
 	eza \
+	fastfetch \
 	fd \
 	fzf \
 	git-delta \
