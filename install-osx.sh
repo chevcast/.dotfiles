@@ -50,6 +50,7 @@ brew install \
 	golang \
 	lazygit \
 	lua \
+	luarocks \
 	fastfetch \
 	powerlevel10k \
 	python \
