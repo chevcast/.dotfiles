@@ -128,7 +128,7 @@ to run my full Neovim setup and nothing extra.
 - [neogen](https://github.com/danymat/neogen.git)
 - [neotest](https://github.com/nvim-neotest/neotest.git)
 - [neotest-elixir](https://github.com/jfpedroza/neotest-elixir.git)
-- [neotest-go](https://github.com/nvim-neotest/neotest-go.git)
+- [neotest-golang](https://github.com/fredrikaverpil/neotest-golang.git)
 - [neotest-playwright](https://github.com/thenbe/neotest-playwright.git)
 - [neotest-plenary](https://github.com/nvim-neotest/neotest-plenary.git)
 - [neotest-python](https://github.com/nvim-neotest/neotest-python.git)
