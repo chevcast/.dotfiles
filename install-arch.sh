@@ -42,7 +42,7 @@ yay -Syuv --noconfirm --needed --disable-download-timeout \
 	go \
 	lazygit \
 	lua \
-	lua51 \
+	luajit \
 	luarocks \
 	python \
 	python-pip \
