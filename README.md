@@ -77,7 +77,7 @@ to run my full Neovim setup and nothing extra.
 - [folke/lazy.nvim](https://github.com/folke/lazy.nvim)
 - [LazyVim/starter](https://github.com/LazyVim/starter)
 
-### Neovim Plugins (112)
+### Neovim Plugins (113)
 - [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim.git)
 - [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim.git)
 - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim.git)
@@ -126,6 +126,7 @@ to run my full Neovim setup and nothing extra.
 - [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim.git)
 - [neoconf.nvim](https://github.com/folke/neoconf.nvim.git)
 - [neogen](https://github.com/danymat/neogen.git)
+- [neorg](https://github.com/nvim-neorg/neorg.git)
 - [neotest](https://github.com/nvim-neotest/neotest.git)
 - [neotest-elixir](https://github.com/jfpedroza/neotest-elixir.git)
 - [neotest-golang](https://github.com/fredrikaverpil/neotest-golang.git)
