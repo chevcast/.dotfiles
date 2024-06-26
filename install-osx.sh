@@ -51,6 +51,7 @@ brew install \
 	golang \
 	lazygit \
 	lua \
+	lua@5.1 \
 	luajit \
 	luarocks \
 	fastfetch \
