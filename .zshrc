@@ -167,6 +167,11 @@ if check_last_run; then
 	updoot
 fi
 
+HISTFILE="$HOME/.zsh_history"
+SAVEHIST=10000
+HISTSIZE=10000
+setopt SHARE_HISTORY
+
 # Set personal aliases.
 alias cat="bat --paging=never"
 alias help="run-help"
