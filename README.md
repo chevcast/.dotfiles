@@ -77,7 +77,7 @@ to run my full Neovim setup and nothing extra.
 - [folke/lazy.nvim](https://github.com/folke/lazy.nvim)
 - [LazyVim/starter](https://github.com/LazyVim/starter)
 
-### Neovim Plugins (117)
+### Neovim Plugins (115)
 - [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim.git)
 - [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim.git)
 - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim.git)
@@ -178,8 +178,6 @@ to run my full Neovim setup and nothing extra.
 - [tiny-devicons-auto-colors.nvim](https://github.com/rachartier/tiny-devicons-auto-colors.nvim.git)
 - [todo-comments.nvim](https://github.com/folke/todo-comments.nvim.git)
 - [tokyonight.nvim](https://github.com/folke/tokyonight.nvim.git)
-- [tree-sitter-norg](https://github.com/nvim-neorg/tree-sitter-norg.git)
-- [tree-sitter-norg-meta](https://github.com/nvim-neorg/tree-sitter-norg-meta.git)
 - [treesj](https://github.com/Wansmer/treesj.git)
 - [trouble.nvim](https://github.com/folke/trouble.nvim.git)
 - [ts-comments.nvim](https://github.com/folke/ts-comments.nvim.git)
