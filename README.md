@@ -77,7 +77,7 @@ to run my full Neovim setup and nothing extra.
 - [folke/lazy.nvim](https://github.com/folke/lazy.nvim)
 - [LazyVim/starter](https://github.com/LazyVim/starter)
 
-### Neovim Plugins (115)
+### Neovim Plugins (116)
 - [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim.git)
 - [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim.git)
 - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim.git)
@@ -123,6 +123,7 @@ to run my full Neovim setup and nothing extra.
 - [mini.animate](https://github.com/echasnovski/mini.animate.git)
 - [mini.files](https://github.com/echasnovski/mini.files.git)
 - [mini.hipatterns](https://github.com/echasnovski/mini.hipatterns.git)
+- [mini.icons](https://github.com/echasnovski/mini.icons.git)
 - [mini.surround](https://github.com/echasnovski/mini.surround.git)
 - [neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim.git)
 - [neoconf.nvim](https://github.com/folke/neoconf.nvim.git)
