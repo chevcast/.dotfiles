@@ -21,11 +21,11 @@ end
 
 return {
 	{
-		"catdadcode/drop.nvim",
+		"folke/drop.nvim",
 		lazy = false,
 		enabled = false,
 		opts = function(_, opts)
-			local thanksgiving_day = require("drop").calculate_us_thanksgiving(os.date("%Y"))
+			local thanksgiving_day = require("drop.util").calculate_us_thanksgiving(os.date("%Y"))
 			opts.theme = pickTheme()
 			opts.holidays = {
 				halloween = {
@@ -41,9 +41,10 @@ return {
 					end_date = { month = 12, day = 25 },
 				},
 			}
-			-- opts.filetypes = { "dashboard" }
-			opts.filetypes = {}
+			opts.filetypes = { "dashboard" }
+			-- opts.filetypes = {}
 			opts.screensaver = (1000 * 60) * 20 --minutes
+			return opts
 		end,
 	},
 }

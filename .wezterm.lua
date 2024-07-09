@@ -6,10 +6,10 @@ require("mousemaps")
 local wezterm = require("wezterm")
 local config = require("config")
 
-config.color_scheme = "Tokyo Night Storm"
+-- config.color_scheme = "Tokyo Night Storm"
 -- config.color_scheme = "Tokyo Night Moon"
 -- config.color_scheme = "Tokyo Night Night"
--- config.color_scheme = "Catppuccin Frappe"
+config.color_scheme = "Catppuccin Frappe"
 -- config.color_scheme = "Catppuccin Macchiato"
 -- config.color_scheme = "Catppuccin Mocha"
 -- config.color_scheme = "Catppuccin Pink Mocha"
