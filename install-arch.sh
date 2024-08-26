@@ -8,7 +8,7 @@ tempfile=$(mktemp) &&
 	rm "$tempfile"
 echo "...done!"
 
-bash <"create-symlinks.sh"
+bash <"./create-symlinks.sh"
 
 # Install pacman key.
 sudo pacman-key --init

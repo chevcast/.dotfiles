@@ -30,8 +30,8 @@ ENV HOME=/home/${USERNAME}
 COPY --chown=${USERNAME} ./ ${HOME}/.dotfiles
 
 # Run install script.
-WORKDIR ${HOME}
-RUN ./.dotfiles/install-arch.sh
+WORKDIR ${HOME}/.dotfiles
+RUN ./install-arch.sh
 
 # Set user-specific environment variables.
 ENV SHELL=/bin/zsh
