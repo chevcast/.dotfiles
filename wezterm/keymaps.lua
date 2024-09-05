@@ -6,8 +6,8 @@ config.keys = {
 	{ key = "D", mods = "CTRL|SHIFT|ALT", action = wezterm.action.ShowDebugOverlay },
 
 	-- Move Tabs
-	{ key = "[", mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(-1) },
-	{ key = "]", mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(1) },
+	{ key = "{", mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(-1) },
+	{ key = "}", mods = "CTRL|SHIFT", action = wezterm.action.MoveTabRelative(1) },
 
 	-- Split panes
 	{ key = "|", mods = "CTRL|SHIFT", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
