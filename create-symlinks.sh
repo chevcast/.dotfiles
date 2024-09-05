@@ -35,14 +35,25 @@ echo "...done! Backups were saved to $HOME/.backup_dotfiles/ and symlinks were c
 if command -v powershell.exe &>/dev/null; then
 	echo "Creating Windows symlink to wezterm config file..."
 	WEZTERM_CONFIG_PATH=$(echo "//wsl.localhost/Arch${DOTFILES_DIR}/.wezterm.lua" | sed 's/\//\\/g')
-	powershell.exe -Command "New-Item -ItemType SymbolicLink -Path \$env:USERPROFILE\\.wezterm.lua -Target ${WEZTERM_CONFIG_PATH}"
+	if powershell.exe -Command "Test-Path \$env:USERPROFILE\\.wezterm.lua" >/dev/null; then
+		powershell.exe -Command "Remove-Item -Recurse -Force \$env:USERPROFILE\\.wezterm.lua" >/dev/null
+	fi
+	powershell.exe -Command "New-Item -ItemType SymbolicLink -Path \$env:USERPROFILE\\.wezterm.lua -Target ${WEZTERM_CONFIG_PATH}" >/dev/null
 	echo "...done!"
+
 	echo "Creating Windows symlink to wezterm directory..."
 	WEZTERM_DIR_PATH=$(echo "//wsl.localhost/Arch${DOTFILES_DIR}/wezterm" | sed 's/\//\\/g')
-	powershell.exe -Command "New-Item -ItemType SymbolicLink -Path \$env:USERPROFILE\\.wezterm -Target ${WEZTERM_DIR_PATH}"
+	if powershell.exe -Command "Test-Path \$env:USERPROFILE\\.wezterm" >/dev/null; then
+		powershell.exe -Command "Remove-Item -Recurse -Force \$env:USERPROFILE\\.wezterm" >/dev/null
+	fi
+	powershell.exe -Command "New-Item -ItemType SymbolicLink -Path \$env:USERPROFILE\\.wezterm -Target ${WEZTERM_DIR_PATH}" >/dev/null
 	echo "...done!"
+
 	echo "Creating Windows symlink to nvim config directory..."
 	NVIM_CONFIG_PATH=$(echo "//wsl.localhost/Arch${DOTFILES_DIR}/nvim" | sed 's/\//\\/g')
-	powershell.exe -Command "New-Item -ItemType SymbolicLink -Path \$env:USERPROFILE\\AppData\\Local\\nvim -Target ${NVIM_CONFIG_PATH}"
+	if powershell.exe -Command "Test-Path \$env:USERPROFILE\\AppData\\Local\\nvim" >/dev/null; then
+		powershell.exe -Command "Remove-Item -Recurse -Force \$env:USERPROFILE\\AppData\\Local\\nvim" >/dev/null
+	fi
+	powershell.exe -Command "New-Item -ItemType SymbolicLink -Path \$env:USERPROFILE\\AppData\\Local\\nvim -Target ${NVIM_CONFIG_PATH}" >/dev/null
 	echo "...done!"
 fi
