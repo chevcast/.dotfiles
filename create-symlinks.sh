@@ -2,43 +2,34 @@
 
 DOTFILES_DIR="$HOME/.dotfiles"
 
-# Ensure directories exist.
-mkdir -p "$HOME/.config"
-mkdir -p "$HOME/.config/gh-copilot"
-mkdir -p "$HOME/.backup_dotfiles"
-
-# List of files to check.
-files=(
-	"$HOME/.config/nvim"
-	"$HOME/.config/gh-copilot/config.yml"
-	"$HOME/.gitconfig"
-	"$HOME/.p10k.zsh"
-	"$HOME/.wezterm.lua"
-	"$HOME/.zprofile"
-	"$HOME/.zshrc"
+# Declare an associative array of files to symlink.
+declare -A files=(
+	["$HOME/.config/nvim"]="$DOTFILES_DIR/nvim"
+	["$HOME/.config/wezterm"]="$DOTFILES_DIR/wezterm"
+	["$HOME/.config/gh-copilot/config.yml"]="$DOTFILES_DIR/gh-copilot/config.yml"
+	["$HOME/.gitconfig"]="$DOTFILES_DIR/.gitconfig"
+	["$HOME/.p10k.zsh"]="$DOTFILES_DIR/.p10k.zsh"
+	["$HOME/.wezterm.lua"]="$DOTFILES_DIR/.wezterm.lua"
+	["$HOME/.zprofile"]="$DOTFILES_DIR/.zprofile"
+	["$HOME/.zshrc"]="$DOTFILES_DIR/.zshrc"
 )
 
-# Backup any existing files that are not symlinks.
-echo "Backing up existing files..."
-for file in "${files[@]}"; do
-	if [ -e "$file" ] && [ ! -L "$file" ]; then
-		echo "Backing up '$file'"
+# Backup any existing files that are not symlinks and create symlinks.
+echo "Backing up existing files and creating symlinks..."
+for file in "${!files[@]}"; do
+	# Backup existing files or symlinks if they are not the symlinks we want.
+	if [ -e "$file" ] && [ "$(readlink -f "$file")" != "${files[$file]}" ]; then
+		echo "Backing up '$file'..."
 		mv "$file" "$HOME/.backup_dotfiles/"
 	fi
+	# Create any missing parent directories.
+	mkdir -p "$(dirname "$file")"
+	# Create symlinks if they are not already the symlinks we want.
+	if [ "$(readlink -f "$file")" != "${files[$file]}" ]; then
+		ln -sf "${files[$file]}" "$file"
+	fi
 done
-echo "...done! Backups were saved to $HOME/.backup_dotfiles/"
-
-# Create symlinks.
-echo "Creating symlinks to .dotfiles config files..."
-ln -sf "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
-ln -sf "$DOTFILES_DIR/wezterm" "$HOME/.config/wezterm"
-ln -sf "$DOTFILES_DIR/gh-copilot/config.yml" "$HOME/.config/gh-copilot/config.yml"
-ln -sf "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
-ln -sf "$DOTFILES_DIR/.p10k.zsh" "$HOME/.p10k.zsh"
-ln -sf "$DOTFILES_DIR/.wezterm.lua" "$HOME/.wezterm.lua"
-ln -sf "$DOTFILES_DIR/.zprofile" "$HOME/.zprofile"
-ln -sf "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
-echo "...done!"
+echo "...done! Backups were saved to $HOME/.backup_dotfiles/ and symlinks were created."
 
 # If WSL then create a Windows symbolic links in Windows user directory.
 if command -v powershell.exe &>/dev/null; then
