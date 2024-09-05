@@ -6,8 +6,8 @@ return {
 		priority = 10000,
 		name = "catppuccin",
 		opts = {
-			flavour = "frappe",
-			-- flavour = "macchiato",
+			-- flavour = "frappe",
+			flavour = "macchiato",
 			-- flavour = "mocha",
 			transparent_background = true,
 			-- color_overrides = {
@@ -39,11 +39,11 @@ return {
 		lazy = false,
 		priority = 10000,
 		opts = {
-			style = "storm",
+			-- style = "storm",
 			-- style = "moon",
-			-- style = "night",
+			style = "night",
 			transparent = true,
 		},
 	},
-	{ "LazyVim/LazyVim", opts = { colorscheme = "catppuccin" } },
+	{ "LazyVim/LazyVim", opts = { colorscheme = "tokyonight" } },
 }
