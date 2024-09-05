@@ -4,7 +4,7 @@ FROM archlinux:latest
 RUN touch /.dockerenv
 
 # Define default user and group.
-ENV USERNAME=catdad
+ENV USERNAME=chev
 ENV USER_UID=1000
 ENV USER_GID=1000
 

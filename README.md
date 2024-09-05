@@ -1,4 +1,4 @@
-# CatDadCode .dotfiles
+# Chev's .dotfiles
 
 This is my personal development environment. You are welcome to use it or borrow
 from it. I'm doing my best to keep all of it as portable as possible, but I make
@@ -15,23 +15,23 @@ to run my full Neovim setup and nothing extra.
 
 ### My full development environment image (2.22gb)
 
-#### `docker run -it catdadcode/devenv`
+#### `docker run -it chevcast/devenv`
 
 ### Alpine Neovim image (300.52mb)
 
-#### `docker run -it catdadcode/nvim`
+#### `docker run -it chevcast/nvim`
 
 > You can even edit your own files with my Neovim setup by mounting a volume to the
 > container and specifying the path for Neovim to open.
 >
-> `docker run -itv /path/to/your/files:/yourfiles catdadcode/nvim /yourfiles`
+> `docker run -itv /path/to/your/files:/yourfiles chevcast/nvim /yourfiles`
 
 ## Installation
 
 1. Clone the repository into a place of your choosing.
 
    ```sh
-   git clone git@github.com:catdadcode/.dotfiles.git
+   git clone git@github.com:chevcast/.dotfiles.git
    ```
 
 2. Run the install script.
@@ -78,6 +78,7 @@ to run my full Neovim setup and nothing extra.
 - [LazyVim/starter](https://github.com/LazyVim/starter)
 
 ### Neovim Plugins (115)
+
 - [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim.git)
 - [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim.git)
 - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim.git)
@@ -115,7 +116,6 @@ to run my full Neovim setup and nothing extra.
 - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim.git)
 - [luvit-meta](https://github.com/Bilal2453/luvit-meta.git)
 - [markdown-preview.nvim](https://github.com/iamcco/markdown-preview.nvim.git)
-- [markdown.nvim](https://github.com/MeanderingProgrammer/markdown.nvim.git)
 - [mason-lspconfig.nvim](https://github.com/williamboman/mason-lspconfig.nvim.git)
 - [mason-nvim-dap.nvim](https://github.com/jay-babu/mason-nvim-dap.nvim.git)
 - [mason.nvim](https://github.com/williamboman/mason.nvim.git)
@@ -171,6 +171,7 @@ to run my full Neovim setup and nothing extra.
 - [rainbow-delimiters.nvim](https://github.com/HiPhish/rainbow-delimiters.nvim.git)
 - [rainbow_csv](https://github.com/mechatroner/rainbow_csv.git)
 - [refactoring.nvim](https://github.com/ThePrimeagen/refactoring.nvim.git)
+- [render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim.git)
 - [rustaceanvim](https://github.com/mrcjkb/rustaceanvim.git)
 - [screenkey.nvim](https://github.com/NStefan002/screenkey.nvim.git)
 - [tailwindcss-colorizer-cmp.nvim](https://github.com/roobert/tailwindcss-colorizer-cmp.nvim.git)
