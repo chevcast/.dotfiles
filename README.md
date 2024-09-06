@@ -77,8 +77,7 @@ to run my full Neovim setup and nothing extra.
 - [folke/lazy.nvim](https://github.com/folke/lazy.nvim)
 - [LazyVim/starter](https://github.com/LazyVim/starter)
 
-### Neovim Plugins (115)
-
+### Neovim Plugins (116)
 - [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim.git)
 - [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim.git)
 - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim.git)
@@ -111,6 +110,7 @@ to run my full Neovim setup and nothing extra.
 - [inc-rename.nvim](https://github.com/smjonas/inc-rename.nvim.git)
 - [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim.git)
 - [kube-utils-nvim](https://github.com/h4ckm1n-dev/kube-utils-nvim.git)
+- [kulala.nvim](https://github.com/mistweaverco/kulala.nvim.git)
 - [lazydev.nvim](https://github.com/folke/lazydev.nvim.git)
 - [lua-utils.nvim](https://github.com/nvim-neorg/lua-utils.nvim.git)
 - [lualine.nvim](https://github.com/nvim-lualine/lualine.nvim.git)
