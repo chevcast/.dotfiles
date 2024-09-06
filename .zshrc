@@ -87,8 +87,8 @@ typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
 	newline
 	prompt_char
 )
-typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND="#FF6AC1"
-typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND="#FF5c57"
+# typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND="#FF6AC1"
+# typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND="#FF5c57"
 
 # If running in wezterm, source the shell integration script.
 [[ "$TERM" = "wezterm" ]] && source "$HOME/.dotfiles/wezterm-shell-integration.sh"
@@ -182,3 +182,14 @@ alias vi="nvim"
 alias vim="nvim"
 alias cd="z"
 alias ff="fastfetch"
+
+export KOMOREBI=false
+function komo() {
+	if [[ $KOMOREBI == true ]]; then
+		komorebic.exe stop --whkd
+		KOMOREBI=false
+	elif [[ $KOMOREBI == false ]]; then
+		komorebic.exe start --whkd
+		KOMOREBI=true
+	fi
+}
