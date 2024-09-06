@@ -2,7 +2,9 @@ return {
 	"Wansmer/treesj",
 	event = "BufEnter",
 	keys = {
-		{ "<C-m>", "<CMD>TSJToggle<CR>", desc = "Toggle Inline/Block" },
+		{ "<space>rm", "<CMD>TSJToggle<CR>", desc = "Toggle Inline/Block" },
+		{ "<space>rj", "<CMD>TSJJoin<CR>", desc = "Inline" },
+		{ "<space>rs", "<CMD>TSJSplit<CR>", desc = "Block" },
 	},
 	dependencies = {
 		"nvim-treesitter/nvim-treesitter",
