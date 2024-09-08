@@ -70,17 +70,18 @@ bindkey -v
 [[ -r "$HOME/.p10k.zsh" ]] && source "$HOME/.p10k.zsh"
 
 # Define custom prompt segmenet outside of generated .p10k.zsh file so it doesn't get overwritten.
-prompt_catdadcode() {
-	p10k segment -f "#0f0" -t '🐱🧔💻'
+prompt_customprefix() {
+	p10k segment -f "#0f0" -t '🎃'
+	# p10k segment -f "#0f0" -t '📜'
 }
 # typeset index=0 # Adjust this to move the segment left or right.
 # POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
 #   "${POWERLEVEL9K_LEFT_PROMPT_ELEMENTS[@]:0:$index}"
-#   catdadcode 
+#   customprefix 
 #   "${POWERLEVEL9K_LEFT_PROMPT_ELEMENTS[@]:$index}"
 # )
 typeset -g POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(
-	catdadcode
+	customprefix
 	os_icon
 	dir
 	vcs
