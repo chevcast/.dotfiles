@@ -2,7 +2,7 @@ return {
 	"CopilotC-Nvim/CopilotChat.nvim",
 	optional = true,
 	opts = function(_, opts)
-		local user = vim.env.USER or "Chev"
+		local user = string.lower(vim.env.USER or "Chev"):gsub("^%l", string.upper)
 		opts.window.title = "🐝 Bumblebee"
 		opts.window.layout = "vertical"
 		opts.window.width = 0.5
