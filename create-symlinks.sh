@@ -2,36 +2,43 @@
 
 DOTFILES_DIR="$HOME/.dotfiles"
 
-# Declare an associative array of files to symlink.
-declare -A files=(
-	["$HOME/.config/nvim"]="$DOTFILES_DIR/nvim"
-	["$HOME/.config/wezterm"]="$DOTFILES_DIR/wezterm"
-	["$HOME/.config/gh-copilot/config.yml"]="$DOTFILES_DIR/gh-copilot/config.yml"
-	["$HOME/.gitconfig"]="$DOTFILES_DIR/.gitconfig"
-	["$HOME/.p10k.zsh"]="$DOTFILES_DIR/.p10k.zsh"
-	["$HOME/.wezterm.lua"]="$DOTFILES_DIR/.wezterm.lua"
-	["$HOME/.zprofile"]="$DOTFILES_DIR/.zprofile"
-	["$HOME/.zshrc"]="$DOTFILES_DIR/.zshrc"
+# Define an array of source and target file pairs.
+files=(
+	"$HOME/.config/nvim:$DOTFILES_DIR/nvim"
+	"$HOME/.config/wezterm:$DOTFILES_DIR/wezterm"
+	"$HOME/.config/gh-copilot/config.yml:$DOTFILES_DIR/gh-copilot/config.yml"
+	"$HOME/.gitconfig:$DOTFILES_DIR/.gitconfig"
+	"$HOME/.p10k.zsh:$DOTFILES_DIR/.p10k.zsh"
+	"$HOME/.wezterm.lua:$DOTFILES_DIR/.wezterm.lua"
+	"$HOME/.zprofile:$DOTFILES_DIR/.zprofile"
+	"$HOME/.zshrc:$DOTFILES_DIR/.zshrc"
 )
 
 # Backup any existing files that are not symlinks and create symlinks.
 echo "Backing up existing files and creating symlinks..."
-for file in "${!files[@]}"; do
+for entry in "${files[@]}"; do
+	# Extract the source and target from the entry.
+	file="${entry%%:*}"
+	target="${entry##*:}"
+
 	# Backup existing files or symlinks if they are not the symlinks we want.
-	if [ -e "$file" ] && [ "$(readlink -f "$file")" != "${files[$file]}" ]; then
+	if [ -e "$file" ] && [ "$(readlink -f "$file")" != "$target" ]; then
 		echo "Backing up '$file'..."
+		mkdir -p "$HOME/.backup_dotfiles"
 		mv "$file" "$HOME/.backup_dotfiles/"
 	fi
+
 	# Create any missing parent directories.
 	mkdir -p "$(dirname "$file")"
+
 	# Create symlinks if they are not already the symlinks we want.
-	if [ "$(readlink -f "$file")" != "${files[$file]}" ]; then
-		ln -sf "${files[$file]}" "$file"
+	if [ "$(readlink -f "$file")" != "$target" ]; then
+		ln -sf "$target" "$file"
 	fi
 done
 echo "...done! Backups were saved to $HOME/.backup_dotfiles/ and symlinks were created."
 
-# If WSL then create a Windows symbolic links in Windows user directory.
+# If WSL, then create Windows symbolic links in Windows user directory.
 if command -v powershell.exe &>/dev/null; then
 	echo "Creating Windows symlink to wezterm config file..."
 	WEZTERM_CONFIG_PATH=$(echo "//wsl.localhost/Arch${DOTFILES_DIR}/.wezterm.lua" | sed 's/\//\\/g')
