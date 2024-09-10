@@ -77,7 +77,8 @@ to run my full Neovim setup and nothing extra.
 - [folke/lazy.nvim](https://github.com/folke/lazy.nvim)
 - [LazyVim/starter](https://github.com/LazyVim/starter)
 
-### Neovim Plugins (117)
+### Neovim Plugins (116)
+
 - [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim.git)
 - [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim.git)
 - [bufferline.nvim](https://github.com/akinsho/bufferline.nvim.git)
@@ -103,7 +104,6 @@ to run my full Neovim setup and nothing extra.
 - [flash.nvim](https://github.com/folke/flash.nvim.git)
 - [friendly-snippets](https://github.com/rafamadriz/friendly-snippets.git)
 - [gitsigns.nvim](https://github.com/lewis6991/gitsigns.nvim.git)
-- [glow.nvim](https://github.com/ellisonleao/glow.nvim.git)
 - [grug-far.nvim](https://github.com/MagicDuck/grug-far.nvim.git)
 - [gruvbox.nvim](https://github.com/ellisonleao/gruvbox.nvim.git)
 - [guess-indent.nvim](https://github.com/NMAC427/guess-indent.nvim.git)
