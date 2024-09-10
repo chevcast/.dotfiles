@@ -38,7 +38,7 @@ if (pluginsHeaderIndex === -1) {
 	throw new Error("Could not find '### Neovim Plugins' header in README.md");
 }
 const newContent = lines.slice(0, pluginsHeaderIndex);
-newContent.push(`### Neovim Plugins (${pluginList.length})`);
+newContent.push(`### Neovim Plugins (${pluginList.length})\n`);
 newContent.push(pluginList.join("\n"));
-await writeFile(readmePath, newContent.join("\n"), "utf-8");
+await writeFile(readmePath, `${newContent.join("\n")}\n`, "utf-8");
 console.log("README.md has been updated successfully.");
