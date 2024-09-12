@@ -8,10 +8,10 @@ local config = require("config")
 
 -- config.color_scheme = "Tokyo Night Storm"
 -- config.color_scheme = "Tokyo Night Moon"
--- config.color_scheme = "Tokyo Night"
+config.color_scheme = "Tokyo Night"
 -- config.color_scheme = "Catppuccin Frappe"
 -- config.color_scheme = "Catppuccin Macchiato"
-config.color_scheme = "Catppuccin Mocha"
+-- config.color_scheme = "Catppuccin Mocha"
 -- config.color_scheme = "Catppuccin Pink Mocha"
 -- config.color_scheme = "Gruvbox Dark Hard"
 
