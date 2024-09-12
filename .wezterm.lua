@@ -8,10 +8,10 @@ local config = require("config")
 
 -- config.color_scheme = "Tokyo Night Storm"
 -- config.color_scheme = "Tokyo Night Moon"
-config.color_scheme = "Tokyo Night"
+-- config.color_scheme = "Tokyo Night"
 -- config.color_scheme = "Catppuccin Frappe"
 -- config.color_scheme = "Catppuccin Macchiato"
--- config.color_scheme = "Catppuccin Mocha"
+config.color_scheme = "Catppuccin Mocha"
 -- config.color_scheme = "Catppuccin Pink Mocha"
 -- config.color_scheme = "Gruvbox Dark Hard"
 
@@ -36,7 +36,7 @@ config.exit_behavior_messaging = "Verbose"
 config.front_end = "OpenGL" -- ["OpenGL", "Software", "WebGpu"]
 config.hide_mouse_cursor_when_typing = true
 config.hide_tab_bar_if_only_one_tab = false
-config.macos_window_background_blur = 0
+-- config.macos_window_background_blur = 0
 config.max_fps = 144
 config.mouse_wheel_scrolls_tabs = false
 config.native_macos_fullscreen_mode = true
@@ -56,6 +56,32 @@ if wezterm.target_triple:match("windows") then
 	config.default_domain = "WSL:Arch"
 	config.default_cwd = "/home/catdad"
 	config.win32_system_backdrop = "Disable" -- ["Auto", "Acrylic", "Mica", "Tabbed" "Disable"]
+elseif wezterm.target_triple:match("darwin") then
+	-- OSX Does not like to show desktop backgorund behind fullscreen apps.
+	-- Set a Wezterm background image instead.
+	config.background = {
+		{
+			source = {
+				Color = "#010101",
+			},
+			opacity = 1.0,
+			width = "100%",
+			height = "100%",
+		},
+		{
+			source = {
+				File = "/Users/alexford/.dotfiles/images/catbg.png",
+			},
+			opacity = 0.1,
+			attachment = "Fixed",
+			repeat_x = "NoRepeat",
+			repeat_y = "NoRepeat",
+			vertical_align = "Bottom",
+			horizontal_align = "Center",
+			height = "Cover",
+			width = "Cover",
+		},
+	}
 end
 
 return config
