@@ -71,7 +71,7 @@ bindkey -v
 
 # Define custom prompt segmenet outside of generated .p10k.zsh file so it doesn't get overwritten.
 prompt_customprefix() {
-	p10k segment -f "#0f0" -t '🎃'
+	p10k segment -f "#0f0" -t '🦇🧛🎃'
 	# p10k segment -f "#0f0" -t '📜'
 }
 # typeset index=0 # Adjust this to move the segment left or right.
