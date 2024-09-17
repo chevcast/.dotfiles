@@ -62,17 +62,9 @@ elseif wezterm.target_triple:match("darwin") then
 	config.background = {
 		{
 			source = {
-				Color = "#010101",
-			},
-			opacity = 1.0,
-			width = "100%",
-			height = "100%",
-		},
-		{
-			source = {
 				File = "/Users/alexford/.dotfiles/images/catbg.png",
 			},
-			opacity = 0.1,
+			opacity = 1,
 			attachment = "Fixed",
 			repeat_x = "NoRepeat",
 			repeat_y = "NoRepeat",
@@ -80,6 +72,14 @@ elseif wezterm.target_triple:match("darwin") then
 			horizontal_align = "Center",
 			height = "Cover",
 			width = "Cover",
+		},
+		{
+			source = {
+				Color = "#000000",
+			},
+			opacity = 0.85,
+			width = "100%",
+			height = "100%",
 		},
 	}
 end
