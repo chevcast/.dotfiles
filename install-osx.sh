@@ -39,6 +39,7 @@ brew install \
 	azure-cli \
 	bat \
 	bun \
+	cmake \
 	direnv \
 	dotnet \
 	eza \
@@ -86,6 +87,7 @@ brew install neovim --HEAD || {
 	# If status code not zero then install neovim nightly from source.
 	echo "Failed to install neovim nightly from brew. Installing from source..."
 	git clone https://github.com/neovim/neovim /neovim && (cd /neovim || exit)
+	make distclean
 	make CMAKE_BUILD_TYPE=Release
 	sudo make install
 }
