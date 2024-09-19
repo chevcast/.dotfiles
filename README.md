@@ -77,7 +77,7 @@ to run my full Neovim setup and nothing extra.
 - [folke/lazy.nvim](https://github.com/folke/lazy.nvim)
 - [LazyVim/starter](https://github.com/LazyVim/starter)
 
-### Neovim Plugins (114)
+### Neovim Plugins (115)
 
 - [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim.git)
 - [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim.git)
@@ -161,6 +161,7 @@ to run my full Neovim setup and nothing extra.
 - [octo.nvim](https://github.com/pwntester/octo.nvim.git)
 - [oil.nvim](https://github.com/stevearc/oil.nvim.git)
 - [one-small-step-for-vimkind](https://github.com/jbyuki/one-small-step-for-vimkind.git)
+- [overseer.nvim](https://github.com/stevearc/overseer.nvim.git)
 - [pathlib.nvim](https://github.com/pysan3/pathlib.nvim.git)
 - [persistence.nvim](https://github.com/folke/persistence.nvim.git)
 - [playtime.nvim](https://github.com/rktjmp/playtime.nvim.git)
