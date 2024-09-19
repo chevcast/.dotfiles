@@ -1,10 +1,5 @@
 return {
 	{
-		"subnut/nvim-ghost.nvim",
-		enabled = not vim.g.started_by_firenvim,
-		lazy = false,
-	},
-	{
 		"glacambre/firenvim",
 		lazy = not vim.g.started_by_firenvim,
 		priority = 100,

@@ -77,7 +77,7 @@ to run my full Neovim setup and nothing extra.
 - [folke/lazy.nvim](https://github.com/folke/lazy.nvim)
 - [LazyVim/starter](https://github.com/LazyVim/starter)
 
-### Neovim Plugins (115)
+### Neovim Plugins (114)
 
 - [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim.git)
 - [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim.git)
@@ -145,7 +145,6 @@ to run my full Neovim setup and nothing extra.
 - [nvim-dap-python](https://github.com/mfussenegger/nvim-dap-python.git)
 - [nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui.git)
 - [nvim-dap-virtual-text](https://github.com/theHamsta/nvim-dap-virtual-text.git)
-- [nvim-ghost.nvim](https://github.com/subnut/nvim-ghost.nvim.git)
 - [nvim-hlslens](https://github.com/kevinhwang91/nvim-hlslens.git)
 - [nvim-jdtls](https://github.com/mfussenegger/nvim-jdtls.git)
 - [nvim-lint](https://github.com/mfussenegger/nvim-lint.git)
