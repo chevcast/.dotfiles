@@ -52,9 +52,9 @@ updoot() {
 }
 
 # Check if we should run system updates.
-if check_last_run; then
-	updoot
-fi
+# if check_last_run; then
+# 	updoot
+# fi
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
