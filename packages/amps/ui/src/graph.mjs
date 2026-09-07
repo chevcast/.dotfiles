@@ -7,7 +7,8 @@ export const colors = {
 	clean_mic: "#94b300",
 	chatgpt_in: "#cc99ff",
 	comms_send: "#e98181",
-	monitor: "#99ccff"
+	monitor: "#99ccff",
+	phone: "#66cccc"
 };
 export function reaches(edges, from, to) {
 	const queue = [from],
@@ -76,4 +77,36 @@ export function loadLayout(storage) {
 	} catch {
 		return null;
 	}
+}
+
+// ELK computes a complete layout, but saved positions override individual nodes.
+// Mixing those coordinate sets can put a new node on top of a saved one. Preserve
+// valid saved positions first, then move only colliding nodes down into free space.
+export function reconcilePositions(children, saved = {}, gap = 54) {
+	const positions = {},
+		occupied = [];
+	const valid = p => Number.isFinite(p?.x) && Number.isFinite(p?.y);
+	const ordered = [
+		...children.filter(n => valid(saved[n.id])),
+		...children.filter(n => !valid(saved[n.id]))
+	];
+	for (const n of ordered) {
+		const preferred = valid(saved[n.id]) ? saved[n.id] : n;
+		const spot = { x: preferred.x, y: preferred.y, width: n.width, height: n.height };
+		let collision;
+		while (
+			(collision = occupied.find(
+				o =>
+					spot.x < o.x + o.width + gap &&
+					spot.x + spot.width + gap > o.x &&
+					spot.y < o.y + o.height + gap &&
+					spot.y + spot.height + gap > o.y
+			))
+		) {
+			spot.y = collision.y + collision.height + gap;
+		}
+		positions[n.id] = { x: spot.x, y: spot.y };
+		occupied.push(spot);
+	}
+	return positions;
 }

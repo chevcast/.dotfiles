@@ -91,6 +91,7 @@ dependencies = [
  "tract-pulse",
  "wasapi",
  "windows 0.54.0",
+ "winreg",
 ]
 
 [[package]]

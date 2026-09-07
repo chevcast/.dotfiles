@@ -30,6 +30,60 @@ No Windows reboot, new audio driver, or Linux backend is part of this rename.
 
 ## Audio routing
 
+### Private phone playback (Windows)
+
+Select **Phone Audio** in the graph (or clear the selection), choose a paired
+phone, and click **Connect phone**. **Reconnect when AMPS starts** remembers
+the choice. Pair/unpair discovery is event-driven; no Store receiver app or
+additional audio driver is required. The receiver belongs to the AMPS tray:
+closing the window keeps it running, Restart AMPS reconnects it, and Exit AMPS
+closes it.
+
+Phone playback follows the engine's **applied Main Output**, including physical
+device history and Quest session overrides. Changing the output in AMPS or the
+Windows default-device picker changes the phone destination too (normally within
+two seconds). If the applied destination cannot be uniquely resolved or is
+unavailable, reception closes rather than falling back to the Windows default
+VAC cable. It does not enter Media, Game, voice sends, or OBS's isolated buses.
+Capturing the physical output directly in another app would still capture what
+you hear there. The existing Main Output meter represents the AMPS listening mix;
+the separate phone meter/wire measures phone PCM after buffering.
+
+**Phone buffer** is adjustable from 50–500 ms (initially 200 ms). It is a phone-only
+timing cushion, in addition to Bluetooth and output-device latency. Changes save
+immediately and refill only the phone queue without reconnecting Bluetooth or
+restarting the main array. A bounded queue, gentle clock-drift correction, and
+short fades reduce timing-related pops; buffering cannot reconstruct samples
+already lost in the radio/codec. Short notification tails still play even when
+they are too short to fill the configured buffer.
+
+Windows decodes the Bluetooth A2DP stream. AMPS opens its hidden capture endpoint
+and owns a buffered WASAPI path to the explicit physical output. The temporary
+Windows Listen route is pinned to that output before opening Bluetooth, then
+disabled as soon as our capture stream takes over to avoid doubled playback.
+It stays disabled on exit. The audio pump is separate from slow discovery and
+control work, uses Windows's Audio scheduling class, and performs no disk I/O.
+It never restores a default-output route. The hidden capture endpoint is resolved
+by exact Bluetooth device-instance identity, not friendly-name matching, and is
+not made visible in Windows Sound settings. Meter samples remain in memory;
+AMPS does not record phone audio. Audio notifications, silent mode, calls, and
+playback after a disconnect remain subject to the phone's own routing rules;
+this is not a telephony or notification-mirroring service.
+
+`%APPDATA%\AMPS\phone.toml` stores the machine-local phone selection, buffer size,
+and startup preference. `phone-status.json` reports connection/privacy status.
+`phone-buffer-status.json` reports aggregate queue depth and underrun/overrun
+counters while running; its timestamp distinguishes current from stale results.
+The first change retains a `phone-listen-backup-*.json` record of the original
+Windows Listen properties. These files contain device identifiers and must not
+be committed. Existing unknown settings schemas are rejected without overwrite.
+The Windows Bluetooth adapter driver remains a host/OEM prerequisite: receiver
+quality can depend on it, particularly with simultaneous phone reception and
+Bluetooth headphone playback. Linux uses the same status contract but does not
+yet implement phone reception.
+
+### Bus routing
+
 AMPS is Alex's private cross-platform streaming-audio graph. Its Windows
 engine is paired with a Tauri operations console; a future Linux engine will
 implement the same Rust status/control contract beneath the identical UI. The

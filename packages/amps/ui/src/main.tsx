@@ -20,13 +20,22 @@ import {
 	getSmoothStepPath,
 	MarkerType,
 	applyNodeChanges,
-	useReactFlow
+	useReactFlow,
+	useUpdateNodeInternals
 } from "@xyflow/react";
 import ELK from "elkjs/lib/elk-api.js";
 import workerUrl from "elkjs/lib/elk-worker.min.js?url";
 import "@xyflow/react/dist/style.css";
 import "./style.css";
-import { colors, key, validateConnection, trace, waveformPoints, loadLayout } from "./graph.mjs";
+import {
+	colors,
+	key,
+	validateConnection,
+	trace,
+	waveformPoints,
+	loadLayout,
+	reconcilePositions
+} from "./graph.mjs";
 import type { GraphNode, GraphEdge, Snapshot, Meter } from "./model";
 
 declare global {
@@ -63,12 +72,19 @@ function Peak({ id }: { id?: string }) {
 }
 const SignalNode = memo(function SignalNode({ data, selected }: any) {
 	const n: GraphNode = data.node;
+	const updateHandles = useUpdateNodeInternals();
+	useEffect(() => {
+		updateHandles(n.id);
+	}, [n.id, n.inputs.length, n.outputs.length, updateHandles]);
 	return (
 		<article
 			className={`signal-node ${selected ? "chosen" : ""} ${n.kind}`}
 			style={
 				{
-					"--signal": colors[n.id] ?? (n.kind === "processor" ? "#ffbb33" : "#828cad")
+					"--signal": colors[n.id] ?? (n.kind === "processor" ? "#ffbb33" : "#828cad"),
+					minHeight:
+						(n.effect ? 224 : 190) +
+						Math.max(0, Math.max(n.inputs.length, n.outputs.length) - 1) * 28
 				} as React.CSSProperties
 			}
 		>
@@ -239,6 +255,7 @@ function Console() {
 		[selection, setSelection] = useState<string | null>(null),
 		[edgeSelection, setEdgeSelection] = useState<string | null>(null);
 	const [busy, setBusy] = useState(false),
+		[phonePending, setPhonePending] = useState(false),
 		[message, setMessage] = useState("Connecting to engine…"),
 		[error, setError] = useState(""),
 		[tick, setTick] = useState(0);
@@ -265,6 +282,23 @@ function Console() {
 		setSnapshot(next);
 		return next;
 	}, []);
+	const phoneControl = async (request: {
+		action: string;
+		deviceId?: string;
+		autoConnect?: boolean;
+		bufferMs?: number;
+	}) => {
+		if (!invoke || phonePending) return;
+		setPhonePending(true);
+		try {
+			await invoke("phone_control", { request });
+			await refresh();
+		} catch (e) {
+			setError(String(e));
+		} finally {
+			setPhonePending(false);
+		}
+	};
 	const sound = useCallback(
 		(name: string) => {
 			if (muted) return;
@@ -350,7 +384,9 @@ function Console() {
 			const children = topology.nodes.map(n => ({
 				id: n.id,
 				width: 260,
-				height: n.effect ? 224 : 190,
+				height:
+					(n.effect ? 224 : 190) +
+					Math.max(0, Math.max(n.inputs.length, n.outputs.length) - 1) * 28,
 				layoutOptions: { "elk.portConstraints": "FIXED_SIDE" },
 				ports: [
 					...n.inputs.map(p => ({
@@ -383,18 +419,13 @@ function Console() {
 					targets: [`${e.target}:${e.targetHandle}:in`]
 				}))
 			});
+			positions.current = reconcilePositions(result.children, reset ? {} : positions.current);
 			setNodes(
 				topology.nodes.map(n => {
-					const spot = result.children.find(c => c.id === n.id);
-					const position =
-						!reset && positions.current[n.id] ?
-							positions.current[n.id]
-						:	{ x: spot.x, y: spot.y };
-					positions.current[n.id] = position;
 					return {
 						id: n.id,
 						type: "signal",
-						position,
+						position: positions.current[n.id],
 						dragHandle: ".node-drag",
 						data: { node: n, busy: busyRef.current, portStart: n.effect ? 170 : 138 },
 						ariaLabel: `${n.title}, ${n.detail}`
@@ -777,7 +808,7 @@ function Console() {
 							</section>
 						)}
 						{(!selection ||
-							["monitor", "main_output", "physical_mic"].includes(selection)) && (
+							["monitor", "main_output", "physical_mic", "phone"].includes(selection)) && (
 							<section>
 								<h3>Device bindings</h3>
 								<label>
@@ -845,6 +876,117 @@ function Console() {
 								</p>
 							</section>
 						)}
+						{snapshot?.phone?.supported &&
+							(!selection || ["phone", "main_output"].includes(selection)) && (
+								<section>
+									<h3>Private phone audio</h3>
+									<label>
+										Paired phone
+										<select
+											aria-label="Paired phone"
+											disabled={phonePending}
+											value={snapshot.phone.settings.deviceId ?? ""}
+											onChange={e =>
+												void phoneControl({
+													action: "settings",
+													deviceId: e.target.value
+												})
+											}
+										>
+											<option
+												value=""
+												disabled
+											>
+												Select a phone…
+											</option>
+											{snapshot.phone.devices.map(d => (
+												<option
+													key={d.id}
+													value={d.id}
+												>
+													{d.name}
+												</option>
+											))}
+										</select>
+									</label>
+									<button
+										disabled={
+											phonePending ||
+											(!snapshot.phone.wanted && !snapshot.phone.settings.deviceId)
+										}
+										onClick={() =>
+											void phoneControl({
+												action: snapshot.phone?.wanted ? "disconnect" : "connect"
+											})
+										}
+									>
+										{phonePending ?
+											"Working…"
+										: snapshot.phone.wanted ?
+											"Disconnect phone"
+										:	"Connect phone"}
+									</button>
+									<button
+										disabled={phonePending}
+										onClick={() => void phoneControl({ action: "refresh" })}
+									>
+										Refresh paired phones
+									</button>
+									<label className="check">
+										<input
+											type="checkbox"
+											disabled={phonePending}
+											checked={snapshot.phone.settings.autoConnect}
+											onChange={e =>
+												void phoneControl({
+													action: "settings",
+													autoConnect: e.target.checked
+												})
+											}
+										/>
+										Reconnect when AMPS starts
+									</label>
+									<p className="binding">
+										{snapshot.phone.phase}
+										{snapshot.phone.output ? ` → ${snapshot.phone.output.name}` : ""}
+									</p>
+									<label>
+										Phone buffer
+										<select
+											aria-label="Phone buffer"
+											disabled={phonePending}
+											value={snapshot.phone.settings.bufferMs ?? 200}
+											onChange={e =>
+												void phoneControl({
+													action: "settings",
+													bufferMs: Number(e.target.value)
+												})
+											}
+										>
+											{[50, 100, 150, 200, 250, 300, 400, 500].map(ms => (
+												<option
+													key={ms}
+													value={ms}
+												>
+													{ms} ms
+												</option>
+											))}
+										</select>
+									</label>
+									<p className="hint">
+										More buffer tolerates larger timing gaps but delays phone audio.
+										Changing it briefly refills only the phone queue.
+									</p>
+									{snapshot.phone.error && (
+										<p className="notice">{snapshot.phone.error}</p>
+									)}
+									<p className="hint">
+										Follows active Main Output, including VR. Bypasses all VAC buses, OBS
+										stems, and voice sends. Calls and notifications remain subject to your
+										phone's audio routing and silent-mode settings.
+									</p>
+								</section>
+							)}
 						{["noise_filter", "clean_mic", "physical_mic"].includes(selection) && (
 							<section>
 								<h3>Microphone processing</h3>

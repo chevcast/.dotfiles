@@ -140,6 +140,7 @@ struct UiState {
 	meters: Arc<RwLock<Vec<MeterReading>>>,
 	engine: Arc<EngineControl>,
 	clean_mic_monitor: Mutex<Option<amps::CleanMicMonitor>>,
+	phone: Arc<amps::phone::Service>,
 }
 
 fn load_config(state: &UiState) -> Result<amps::Config, String> {
@@ -157,6 +158,7 @@ struct CanvasSnapshot {
 	graph: GraphSnapshot,
 	runtime: Option<amps::control::Status>,
 	topology: amps::topology::Topology,
+	phone: amps::phone::Snapshot,
 }
 
 #[tauri::command]
@@ -168,12 +170,26 @@ fn routing_snapshot(state: tauri::State<'_, UiState>) -> Result<CanvasSnapshot, 
 		.filter(|r| r.online && r.applied_revision.is_some())
 		.map(|r| r.patches.as_slice())
 		.unwrap_or(&graph.patches);
-	let topology = amps::topology::project(&graph, patches, runtime.as_ref());
+	let mut topology = amps::topology::project(&graph, patches, runtime.as_ref());
+	let phone = state.phone.snapshot();
+	amps::phone::append_topology(&mut topology, &phone);
 	Ok(CanvasSnapshot {
 		graph,
 		runtime,
 		topology,
+		phone,
 	})
+}
+
+#[tauri::command]
+async fn phone_control(
+	request: amps::phone::Request,
+	state: tauri::State<'_, UiState>,
+) -> Result<(), String> {
+	let phone = state.phone.clone();
+	tauri::async_runtime::spawn_blocking(move || phone.edit(request).map_err(|e| format!("{e:#}")))
+		.await
+		.map_err(|e| e.to_string())?
 }
 
 #[tauri::command]
@@ -362,6 +378,9 @@ fn main() {
 	let config_path =
 		amps::default_config_path().expect("AMPS could not determine its configuration path");
 	let engine = Arc::new(EngineControl::new());
+	let phone = Arc::new(amps::phone::Service::start(&config_path));
+	let meter_phone = phone.clone();
+	let meter_engine = engine.clone();
 
 	let meters = Arc::new(RwLock::new(Vec::new()));
 	let meter_state = meters.clone();
@@ -371,9 +390,18 @@ fn main() {
 		.spawn(move || {
 			let mut probe = None;
 			let mut next_rebuild = Instant::now();
-			loop {
+			while !meter_engine.stop.load(Ordering::Acquire) {
 				if Instant::now() >= next_rebuild {
+					let mut phone_output = None;
 					if let Ok(config) = amps::Config::load(&meter_config_path) {
+						if meter_phone.snapshot().wanted {
+							if let Ok(graph) = amps::graph_snapshot(&config) {
+								phone_output = amps::phone::applied_output(
+									&graph,
+									amps::control::status(&meter_config_path).ok().as_ref(),
+								);
+							}
+						}
 						let rebuild = probe.as_ref().is_none_or(|current: &amps::MeterProbe| {
 							!current.is_current(&config).unwrap_or(false)
 						});
@@ -384,11 +412,15 @@ fn main() {
 							probe = amps::MeterProbe::new(&config).ok();
 						}
 					}
+					meter_phone.output(phone_output);
 					next_rebuild = Instant::now() + Duration::from_secs(2);
 				}
 				if let Some(probe) = &mut probe {
 					if let Ok(mut current) = meter_state.write() {
 						*current = probe.read();
+						if let Some(reading) = meter_phone.meter() {
+							current.push(reading);
+						}
 					}
 				}
 				thread::sleep(Duration::from_millis(33));
@@ -397,6 +429,7 @@ fn main() {
 		.expect("AMPS could not start its meter service");
 
 	let shutdown = engine.clone();
+	let shutdown_phone = phone.clone();
 	let setup_engine = engine.clone();
 	let setup_config_path = config_path.clone();
 	let app = tauri::Builder::default()
@@ -405,6 +438,7 @@ fn main() {
 			meters,
 			engine,
 			clean_mic_monitor: Mutex::new(None),
+			phone,
 		})
 		.setup(move |app| {
 			supervise_engine(setup_config_path.clone(), setup_engine.clone());
@@ -444,6 +478,7 @@ fn main() {
 			"restart" => {
 				let state = app.state::<UiState>();
 				stop_clean_mic_monitor(&state);
+				state.phone.restart();
 				state.engine.restart.store(true, Ordering::Release);
 			}
 			"exit" => {
@@ -469,12 +504,14 @@ fn main() {
 			routing_snapshot,
 			edit_routing,
 			set_clean_mic_monitor,
+			phone_control,
 		])
 		.build(tauri::generate_context!())
 		.expect("error while building AMPS interface");
 	app.run(move |_app, event| {
 		if matches!(event, RunEvent::Exit | RunEvent::ExitRequested { .. }) {
 			shutdown.stop.store(true, Ordering::Release);
+			shutdown_phone.stop();
 		}
 	});
 }

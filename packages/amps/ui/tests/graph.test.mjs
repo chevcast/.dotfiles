@@ -1,6 +1,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { validateConnection, waveformPoints, trace, loadLayout } from "../src/graph.mjs";
+import {
+	validateConnection,
+	waveformPoints,
+	trace,
+	loadLayout,
+	reconcilePositions
+} from "../src/graph.mjs";
 const ids = [
 	"game",
 	"comms",
@@ -62,6 +68,18 @@ test("protected ports and duplicate links rejected", () => {
 		/already exists/
 	);
 });
+test("private phone cannot be plugged into recording or voice buses", () => {
+	const withPhone = {
+		...topology,
+		nodes: [
+			...topology.nodes,
+			{ id: "phone", inputs: [], outputs: [{ id: "out", editable: false }] }
+		]
+	};
+	for (const target of ids) {
+		assert.match(validateConnection(withPhone, patches, connection("phone", target)), /fixed/);
+	}
+});
 test("valid fanout and reconnect validate the final graph", () => {
 	assert.equal(validateConnection(topology, patches, connection("music", "comms_send")), null);
 	assert.equal(
@@ -99,4 +117,35 @@ test("path tracing includes predecessors and successors only", () => {
 test("unknown and malformed layout versions are ignored", () => {
 	assert.equal(loadLayout({ getItem: () => "{" }), null);
 	assert.equal(loadLayout({ getItem: () => JSON.stringify({ version: 2, positions: {} }) }), null);
+});
+test("new phone node cannot obscure a saved microphone position", () => {
+	const children = [
+		{ id: "phone", x: 0, y: 0, width: 260, height: 190 },
+		{ id: "physical_mic", x: 0, y: 300, width: 260, height: 190 },
+		{ id: "noise_filter", x: 440, y: 0, width: 260, height: 190 }
+	];
+	const saved = { physical_mic: { x: 0, y: 0 }, noise_filter: { x: 440, y: 0 } };
+	const result = reconcilePositions(children, saved);
+	assert.deepEqual(result.physical_mic, saved.physical_mic);
+	assert.deepEqual(result.noise_filter, saved.noise_filter);
+	assert.deepEqual(result.phone, { x: 0, y: 244 });
+	assert.deepEqual(reconcilePositions(children, result), result);
+});
+test("repair an already-saved overlap without resetting the rest of the graph", () => {
+	const children = ["physical_mic", "phone", "music"].map(id => ({
+		id,
+		x: 0,
+		y: 0,
+		width: 260,
+		height: 190
+	}));
+	const saved = {
+		physical_mic: { x: 12, y: 12 },
+		phone: { x: 12, y: 12 },
+		music: { x: 800, y: 50 }
+	};
+	const result = reconcilePositions(children, saved);
+	assert.deepEqual(result.physical_mic, saved.physical_mic);
+	assert.deepEqual(result.music, saved.music);
+	assert.equal(result.phone.y, 256);
 });

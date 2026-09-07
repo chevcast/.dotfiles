@@ -11,6 +11,7 @@ use anyhow::{bail, Context, Result};
 use serde::{Deserialize, Serialize};
 
 pub mod control;
+pub mod phone;
 pub mod topology;
 
 #[cfg(windows)]

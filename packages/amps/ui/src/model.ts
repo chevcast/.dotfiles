@@ -51,6 +51,21 @@ export type Runtime = {
 };
 export type Endpoint = { id: string; name: string; selected: boolean };
 export type Snapshot = {
+	phone?: {
+		supported: boolean;
+		devices: { id: string; name: string }[];
+		settings: {
+			schemaVersion: number;
+			deviceId?: string;
+			autoConnect: boolean;
+			bufferMs: number;
+		};
+		wanted: boolean;
+		connected: boolean;
+		phase: string;
+		output?: { id: string; name: string };
+		error?: string;
+	};
 	runtime: Runtime | null;
 	topology: { nodes: GraphNode[]; edges: GraphEdge[] };
 	graph: {

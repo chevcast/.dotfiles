@@ -61,6 +61,34 @@ const { chromium } = requireRuntime("playwright");
 		});
 		await page.addInitScript(
 			({ fixture }) => {
+				fixture.phone = {
+					supported: true,
+					devices: [{ id: "fixture-phone", name: "Test phone" }],
+					settings: { schemaVersion: 1, deviceId: null, autoConnect: false, bufferMs: 200 },
+					wanted: false,
+					connected: false,
+					phase: "off",
+					output: null,
+					error: null
+				};
+				fixture.topology.nodes.push({
+					id: "phone",
+					title: "Phone Audio",
+					kind: "device",
+					detail: "Private phone playback",
+					meter: "phone",
+					inputs: [],
+					outputs: [
+						{
+							id: "out",
+							label: "Private listening",
+							direction: "output",
+							editable: false,
+							signal: "PCM",
+							fanIn: false
+						}
+					]
+				});
 				const patches = fixture.graph.patches;
 				fixture.runtime = {
 					schemaVersion: 1,
@@ -172,6 +200,48 @@ const { chromium } = requireRuntime("playwright");
 							return { id: r.id, applied: true, revision: fixture.runtime.revision };
 						}
 						if (cmd === "set_clean_mic_monitor") return args.enabled ? "Test output" : null;
+						if (cmd === "phone_control") {
+							window.__TEST_REQUESTS__.push({ cmd, args });
+							const request = args.request;
+							if (request.deviceId) fixture.phone.settings.deviceId = request.deviceId;
+							if (typeof request.bufferMs === "number")
+								fixture.phone.settings.bufferMs = request.bufferMs;
+							if (typeof request.autoConnect === "boolean")
+								fixture.phone.settings.autoConnect = request.autoConnect;
+							if (["connect", "disconnect"].includes(request.action)) {
+								fixture.phone.wanted = fixture.phone.connected =
+									request.action === "connect";
+								fixture.phone.phase = fixture.phone.connected ? "connected" : "off";
+								fixture.phone.output =
+									fixture.phone.connected ? fixture.graph.mainOutput : null;
+								const main = fixture.topology.nodes.find(n => n.id === "main_output");
+								main.inputs = main.inputs.filter(p => p.id !== "phone");
+								fixture.topology.edges = fixture.topology.edges.filter(
+									e => e.source !== "phone"
+								);
+								if (fixture.phone.connected) {
+									main.inputs.push({
+										id: "phone",
+										label: "Private phone",
+										direction: "input",
+										editable: false,
+										signal: "PCM",
+										fanIn: false
+									});
+									fixture.topology.edges.push({
+										id: "fixed:phone:main_output",
+										source: "phone",
+										target: "main_output",
+										sourceHandle: "out",
+										targetHandle: "phone",
+										kind: "fixed",
+										meter: "phone",
+										label: "Private listening"
+									});
+								}
+							}
+							return null;
+						}
 						if (cmd.startsWith("select_main_")) {
 							window.__TEST_REQUESTS__.push({ cmd, args });
 							return null;
@@ -193,6 +263,31 @@ const { chromium } = requireRuntime("playwright");
 		await page.waitForFunction(() => document.querySelectorAll(".react-flow__edge").length > 10);
 		await page.waitForTimeout(1800);
 		assert.equal(errors.length, 0, errors.join("\n"));
+		await page.getByRole("combobox", { name: "Paired phone" }).selectOption("fixture-phone");
+		await page.getByRole("button", { name: "Connect phone", exact: true }).click();
+		await page.getByRole("button", { name: "Disconnect phone", exact: true }).waitFor();
+		await page.getByRole("combobox", { name: "Phone buffer" }).selectOption("300");
+		await page.waitForFunction(
+			() => document.querySelector('select[aria-label="Phone buffer"]').value === "300"
+		);
+		assert(
+			await page.getByRole("button", { name: "Disconnect phone", exact: true }).isVisible(),
+			"Buffer change disconnected phone"
+		);
+		await page.locator('.react-flow__edge[data-id="fixed:phone:main_output"]').waitFor();
+		assert.equal(
+			await page
+				.locator('.react-flow__node[data-id="main_output"] .react-flow__handle.target')
+				.count(),
+			2
+		);
+		await assertWindowFit();
+		await page.screenshot({ path: path.join(output, "phone-connected.png"), fullPage: true });
+		await page.getByRole("checkbox", { name: "Reconnect when AMPS starts" }).check();
+		await page.getByRole("button", { name: "Disconnect phone", exact: true }).click();
+		await page.getByRole("button", { name: "Connect phone", exact: true }).waitFor();
+		assert(await page.getByRole("checkbox", { name: "Reconnect when AMPS starts" }).isChecked());
+		assert.equal(await page.getByRole("combobox", { name: "Phone buffer" }).inputValue(), "300");
 		for (const [id, title] of [
 			["comms", "Comms Audio"],
 			["comms_send", "Comms Mic"],
@@ -348,6 +443,33 @@ const { chromium } = requireRuntime("playwright");
 			savedPosition,
 			"Reload discarded saved node positions"
 		);
+		// Regression: a newly-added phone node inherited coordinates occupied by
+		// the user's saved Main Input, making it look wired to noise suppression.
+		const savedMic = await page.evaluate(() => {
+			const layout = JSON.parse(localStorage.getItem("audioarray:layout:v1"));
+			layout.positions.phone = { ...layout.positions.physical_mic };
+			localStorage.setItem("audioarray:layout:v1", JSON.stringify(layout));
+			return layout.positions.physical_mic;
+		});
+		await page.reload();
+		await page.waitForSelector('.react-flow__node[data-id="phone"]');
+		await page.waitForTimeout(500);
+		assert.deepEqual(
+			await page.evaluate(
+				() => JSON.parse(localStorage.getItem("audioarray:layout:v1")).positions.physical_mic
+			),
+			savedMic
+		);
+		const micBounds = await page
+			.locator('.react-flow__node[data-id="physical_mic"]')
+			.boundingBox();
+		const phoneBounds = await page.locator('.react-flow__node[data-id="phone"]').boundingBox();
+		assert(phoneBounds.y >= micBounds.y + micBounds.height + 5, "Phone obscures Main Input");
+		assert.equal(await page.locator('[data-id="physical_mic"] h3').innerText(), "MAIN INPUT");
+		await page.screenshot({
+			path: path.join(output, "phone-layout-repaired.png"),
+			fullPage: true
+		});
 		await page.getByLabel("Connection source", { exact: true }).selectOption("comms");
 		await page.getByLabel("Connection destination", { exact: true }).selectOption("comms_send");
 		await page.getByRole("button", { name: "Connect", exact: true }).click();
