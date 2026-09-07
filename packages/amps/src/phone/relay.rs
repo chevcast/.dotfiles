@@ -141,7 +141,10 @@ struct Render {
 unsafe fn render(en: &IMMDeviceEnumerator, id: &str) -> Result<Render> {
 	// Always explicit: no default endpoint lookup, VAC route, or silent fallback.
 	let device = en.GetDevice(&HSTRING::from(id))?;
-	let client = client(&device, 300_000)?;
+	// The jitter reservoir cannot protect samples already handed to WASAPI from
+	// a missed scheduling deadline. Give the phone's final render queue 100 ms
+	// too; this does not change latency for any game or microphone stream.
+	let client = client(&device, 1_000_000)?;
 	let service = client.0.GetService()?;
 	let frames = client.0.GetBufferSize()?;
 	Ok(Render {
@@ -191,7 +194,14 @@ fn run(
 		let mut peak = 0f32;
 		let mut waveform = Vec::new();
 		let mut rendered = 0u64;
+		let mut last_pump = Instant::now();
+		let mut max_pump_gap_ms = 0u128;
+		let mut render_starvations = 0u64;
+		let mut capture_position_gaps = 0u64;
+		let mut expected_capture_position = None;
 		while !stop.load(Ordering::Acquire) {
+			max_pump_gap_ms = max_pump_gap_ms.max(last_pump.elapsed().as_millis());
+			last_pump = Instant::now();
 			let buffer_ms = size.load(Ordering::Acquire);
 			buffer.set_target(buffer_ms);
 			let desired = output.lock().unwrap().clone();
@@ -206,7 +216,22 @@ fn run(
 				let mut data = std::ptr::null_mut();
 				let mut frames = 0;
 				let mut flags = 0;
-				capture.GetBuffer(&mut data, &mut frames, &mut flags, None, None)?;
+				let mut position = 0;
+				capture.GetBuffer(
+					&mut data,
+					&mut frames,
+					&mut flags,
+					Some(&mut position),
+					None,
+				)?;
+				if flags & AUDCLNT_BUFFERFLAGS_TIMESTAMP_ERROR.0 as u32 == 0 {
+					if expected_capture_position.is_some_and(|expected| expected != position) {
+						capture_position_gaps += 1;
+					}
+					expected_capture_position = Some(position + frames as u64);
+				} else {
+					expected_capture_position = None;
+				}
 				if flags & AUDCLNT_BUFFERFLAGS_SILENT.0 as u32 != 0 || data.is_null() {
 					buffer.push(&vec![0.0; frames as usize * 2]);
 				} else {
@@ -219,9 +244,11 @@ fn run(
 				last_input = Instant::now();
 			}
 			let render = playback.as_mut().unwrap();
-			let available = render
-				.frames
-				.saturating_sub(render.client.0.GetCurrentPadding()?);
+			let padding = render.client.0.GetCurrentPadding()?;
+			if render.started && padding == 0 {
+				render_starvations += 1;
+			}
+			let available = render.frames.saturating_sub(padding);
 			if available > 0 {
 				let data = render.service.GetBuffer(available)?;
 				let samples =
@@ -266,6 +293,8 @@ fn run(
 				shared.lock().unwrap().health = Some(serde_json::json!({
 					"targetMs": buffer_ms, "queuedMs": buffer.queued_ms(), "receivedFrames": buffer.received,
 					"renderedFrames": rendered, "underruns": buffer.underruns, "overruns": buffer.overruns,
+					"renderBufferMs": render.frames as usize * 1000 / RATE, "renderStarvations": render_starvations,
+					"maxPumpGapMs": max_pump_gap_ms, "capturePositionGaps": capture_position_gaps,
 					"outputId": target, "updatedAt": std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap_or_default().as_secs()
 				}));
 				report = Instant::now();

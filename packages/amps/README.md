@@ -72,8 +72,13 @@ this is not a telephony or notification-mirroring service.
 
 `%APPDATA%\AMPS\phone.toml` stores the machine-local phone selection, buffer size,
 and startup preference. `phone-status.json` reports connection/privacy status.
-`phone-buffer-status.json` reports aggregate queue depth and underrun/overrun
-counters while running; its timestamp distinguishes current from stale results.
+`phone-buffer-status.json` reports aggregate queue depth, reservoir underruns and
+overruns, final WASAPI render-queue starvation, maximum pump scheduling gap, and
+capture-position discontinuities while running. Its timestamp distinguishes
+current from stale results. Capture-position gaps alone do not prove lost audio:
+driver timestamps and format conversion can affect them. The phone's final
+WASAPI render queue has its own 100 ms cushion in addition to the adjustable
+reservoir. No game or microphone buffer changes with it.
 The first change retains a `phone-listen-backup-*.json` record of the original
 Windows Listen properties. These files contain device identifiers and must not
 be committed. Existing unknown settings schemas are rejected without overwrite.
@@ -81,6 +86,10 @@ The Windows Bluetooth adapter driver remains a host/OEM prerequisite: receiver
 quality can depend on it, particularly with simultaneous phone reception and
 Bluetooth headphone playback. Linux uses the same status contract but does not
 yet implement phone reception.
+
+The proposed multi-device graph and native iPhone call controls are described in
+the [device-graph plan](../../docs/amps-device-graph-plan.md). They are not part of
+the current receive-only implementation.
 
 ### Bus routing
 
