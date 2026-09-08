@@ -317,9 +317,8 @@ push_updates() {
 cleanup_nix_after_updoot() {
 	local profile="$1"
 	local system_profile=/nix/var/nix/profiles/system
-	local generations current generation kept_previous=0
-	local -a delete_generations=()
-	local -A keep_generations=()
+	local generations current generation kept_generation kept_previous=0
+	local -a delete_generations=() keep_generations=()
 
 	command_exists nix-collect-garbage || return 0
 	case "$profile" in
@@ -333,19 +332,22 @@ cleanup_nix_after_updoot() {
 				return 1
 			}
 
-			keep_generations["$current"]=1
+			keep_generations+=("$current")
 			while IFS= read -r generation; do
 				[[ "$generation" =~ ^[0-9]+$ ]] || continue
 				[[ "$generation" == "$current" ]] && continue
 				if ((kept_previous < 2)); then
-					keep_generations["$generation"]=1
+					keep_generations+=("$generation")
 					((kept_previous += 1))
 				fi
 			done < <(awk '{ print $1 }' <<<"$generations" | sort -rn)
 
 			while IFS= read -r generation; do
 				[[ "$generation" =~ ^[0-9]+$ ]] || continue
-				[[ -n "${keep_generations[$generation]:-}" ]] || delete_generations+=("$generation")
+				for kept_generation in "${keep_generations[@]}"; do
+					[[ "$generation" == "$kept_generation" ]] && continue 2
+				done
+				delete_generations+=("$generation")
 			done < <(awk '{ print $1 }' <<<"$generations")
 
 			if ((${#delete_generations[@]})); then

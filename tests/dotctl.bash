@@ -34,10 +34,11 @@ detected_tracer="$({
 	WSL_DISTRO_NAME=""
 	is_nixos() { return 0; }
 	uname() {
-		case "$1" in
-			-s) printf 'Linux\n' ;;
-			-m) printf 'x86_64\n' ;;
-		esac
+		if [[ "$1" == "-s" ]]; then
+			printf 'Linux\n'
+		else
+			printf 'x86_64\n'
+		fi
 	}
 	hostname() { printf 'tracer\n'; }
 	detect_profile

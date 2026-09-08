@@ -69,6 +69,8 @@ apply_profile() {
 		darwin-macos)
 			flake_ref="$(flake_ref_for_profile "$profile" "$source_root")"
 			require_command darwin-rebuild
+			ensure_homebrew
+			migrate_macos_cask_ownership
 			darwin-rebuild switch --flake "$flake_ref"
 			;;
 		linux)
@@ -124,6 +126,9 @@ apply_with_update() {
 		prepare_update_candidate "$candidate" "$work"
 		printf 'Applying %s from the validated staging checkout...\n' "$profile"
 		apply_profile "$profile" "$candidate" || apply_status=$?
+		if ((apply_status == 0)) && [[ "$profile" == "macos" || "$profile" == "darwin-macos" ]]; then
+			update_macos_wezterm_nightly || apply_status=$?
+		fi
 		# The candidate pins have already passed the full flake evaluation. Keep
 		# the editor runtime reconciled even when a later host-integration step
 		# fails, so opening Neovim does not perform the deferred work itself.
